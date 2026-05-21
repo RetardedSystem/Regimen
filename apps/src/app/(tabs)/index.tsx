@@ -3,11 +3,7 @@ import Colors from "../../constants/Colors";
 import Screen from "../../components/Screen";
 
 export default function Index() {
-  return (
-    <Screen>
-      <View style={styles.container}></View>
-    </Screen>
-  );
+  return <Screen></Screen>;
 }
 
 const styles = StyleSheet.create({
