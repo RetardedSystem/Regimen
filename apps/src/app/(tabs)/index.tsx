@@ -1,11 +1,19 @@
-import { Text, StyleSheet, View } from "react-native";
+import ScreenBackground from "@/components/ScreenBackground";
+import React from 'react';
+import { StyleSheet, Text, View } from "react-native";
 import Colors from "../../constants/Colors";
-import Screen from "../../components/Screen";
 
 export default function Index() {
-  return <Screen></Screen>;
-}
-
+  return (
+    <ScreenBackground
+      image={require('../../../assets/Home_bg.png')}
+    >
+      <View>
+        <Text>Home Screen</Text>
+      </View>
+    </ScreenBackground>
+  );
+};
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
