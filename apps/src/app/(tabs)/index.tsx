@@ -1,43 +1,28 @@
 import ScreenBackground from "@/components/ScreenBackground";
 import React from "react";
-import {
-  Image,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-
+import { Image, StyleSheet, Text, View } from "react-native";
 
 export default function Index() {
   return (
     <ScreenBackground
-      image={require("../../../assets/Home_bg.png")}
+      image={require("../../../assets/Backgrounds/Home_bg.png")}
     >
       <View style={styles.container}>
-
         {/* Header */}
         <View style={styles.header}>
-
           {/* Profile Image */}
           <Image
-            source={require("../../../assets/profile.png")}
+            source={require("../../../assets/Avatars/profile.png")}
             style={styles.profileImage}
           />
 
           {/* User Info */}
           <View style={styles.userInfo}>
+            <Text style={styles.name}>Samantha Jones</Text>
 
-            <Text style={styles.name}>
-              Samantha Jones
-            </Text>
-
-            <Text style={styles.description}>
-              A Lazy Sloth
-            </Text>
-
+            <Text style={styles.description}>A Lazy Sloth</Text>
           </View>
         </View>
-
       </View>
     </ScreenBackground>
   );
@@ -70,19 +55,19 @@ const styles = StyleSheet.create({
   },
 
   name: {
-    color: '#5FA1CA',
+    color: "#5FA1CA",
     fontSize: 20,
-    fontFamily: 'Gabarito',
-    fontWeight: '700',
-    textTransform: 'uppercase',
-    wordWrap: 'break-word'
+    fontFamily: "Gabarito",
+    fontWeight: "700",
+    textTransform: "uppercase",
+    wordWrap: "break-word",
   },
 
   description: {
-  color: 'black',
-  fontSize: 18,
-  fontFamily: 'Geologica',
-  fontWeight: '200',
-  wordWrap: 'break-word'
+    color: "black",
+    fontSize: 18,
+    fontFamily: "Geologica",
+    fontWeight: "200",
+    wordWrap: "break-word",
   },
 });
