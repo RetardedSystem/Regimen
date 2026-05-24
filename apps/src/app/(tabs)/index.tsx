@@ -1,38 +1,88 @@
 import ScreenBackground from "@/components/ScreenBackground";
-import React from 'react';
-import { StyleSheet, Text, View } from "react-native";
-import Colors from "../../constants/Colors";
+import React from "react";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+
 
 export default function Index() {
   return (
     <ScreenBackground
-      image={require('../../../assets/Home_bg.png')}
+      image={require("../../../assets/Home_bg.png")}
     >
-      <View>
-        <Text>Home Screen</Text>
+      <View style={styles.container}>
+
+        {/* Header */}
+        <View style={styles.header}>
+
+          {/* Profile Image */}
+          <Image
+            source={require("../../../assets/profile.png")}
+            style={styles.profileImage}
+          />
+
+          {/* User Info */}
+          <View style={styles.userInfo}>
+
+            <Text style={styles.name}>
+              Samantha Jones
+            </Text>
+
+            <Text style={styles.description}>
+              A Lazy Sloth
+            </Text>
+
+          </View>
+        </View>
+
       </View>
     </ScreenBackground>
   );
-};
+}
+
 const styles = StyleSheet.create({
   container: {
-    position: "absolute",
-    width: 200,
-    height: 200,
-    backgroundColor: Colors.red,
-    borderRadius: 40,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 100,
+    marginTop: 15,
+    padding: 23,
+    elevation: 5,
+  },
 
-    elevation: 7,
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  profileImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 45,
+    backgroundColor: "#5FA1CA",
+    borderWidth: 2,
+    borderColor: "#5FA1CA",
+  },
+
+  userInfo: {
+    marginLeft: 20,
+    flex: 1,
+  },
+
+  name: {
+    color: '#5FA1CA',
+    fontSize: 20,
+    fontFamily: 'Gabarito',
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    wordWrap: 'break-word'
+  },
+
+  description: {
+  color: 'black',
+  fontSize: 18,
+  fontFamily: 'Geologica',
+  fontWeight: '200',
+  wordWrap: 'break-word'
   },
 });
