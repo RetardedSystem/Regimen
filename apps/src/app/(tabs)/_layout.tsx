@@ -8,9 +8,8 @@ const style: ViewStyle = {
   borderTopWidth: 0,
   elevation: 0,
   bottom: 20,
-  left: 20,
-  right: 20,
-  width: 300,
+  width: "80%",
+  left: "10%",
   borderRadius: 15,
   height: 60,
 };
