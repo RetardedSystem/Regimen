@@ -23,23 +23,11 @@ export default function Index() {
           </View>
         </View>
       </View>
-      {/* Delete this test element*/}
-      <View style={styles.nothing}></View>
     </ScreenBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  nothing: {
-    width: 100,
-    height: 100,
-    backgroundColor: "red",
-    borderRadius: 10,
-    position: "absolute",
-    bottom: 10,
-    left: 100,
-  },
-
   container: {
     marginTop: 15,
     padding: 23,
