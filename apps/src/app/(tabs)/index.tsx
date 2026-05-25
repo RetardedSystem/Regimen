@@ -1,5 +1,4 @@
 import ScreenBackground from "@/components/ScreenBackground";
-import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
 export default function Index() {
@@ -24,11 +23,23 @@ export default function Index() {
           </View>
         </View>
       </View>
+      {/* Delete this test element*/}
+      <View style={styles.nothing}></View>
     </ScreenBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  nothing: {
+    width: 100,
+    height: 100,
+    backgroundColor: "red",
+    borderRadius: 10,
+    position: "absolute",
+    bottom: 10,
+    left: 100,
+  },
+
   container: {
     marginTop: 15,
     padding: 23,
@@ -52,22 +63,5 @@ const styles = StyleSheet.create({
   userInfo: {
     marginLeft: 20,
     flex: 1,
-  },
-
-  name: {
-    color: "#5FA1CA",
-    fontSize: 20,
-    fontFamily: "Gabarito",
-    fontWeight: "700",
-    textTransform: "uppercase",
-    wordWrap: "break-word",
-  },
-
-  description: {
-    color: "black",
-    fontSize: 18,
-    fontFamily: "Geologica",
-    fontWeight: "200",
-    wordWrap: "break-word",
   },
 });
