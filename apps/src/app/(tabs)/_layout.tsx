@@ -1,6 +1,9 @@
 import { Tabs } from "expo-router";
 import TabBar from "../../components/TabBar";
 import Colors from "../../constants/Colors";
+import Icons from "../../constants/Icons";
+
+const icon_size = 20;
 
 export default function TabsLayout() {
   return (
@@ -8,9 +11,42 @@ export default function TabsLayout() {
       tabBar={(props) => <TabBar {...props} />}
       screenOptions={tabBarOptions}
     >
-      <Tabs.Screen name="index" options={{ title: "Home" }} />
-      <Tabs.Screen name="goals" options={{ title: "Goals" }} />
-      <Tabs.Screen name="domains" options={{ title: "Domains" }} />
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: "Home",
+          tabBarIcon: ({ focused }) =>
+            focused ? (
+              <Icons.homeActive width={icon_size} height={icon_size} />
+            ) : (
+              <Icons.home width={icon_size} height={icon_size} />
+            ),
+        }}
+      />
+      <Tabs.Screen
+        name="goals"
+        options={{
+          title: "Goals",
+          tabBarIcon: ({ focused }) =>
+            focused ? (
+              <Icons.goalsActive width={icon_size} height={icon_size} />
+            ) : (
+              <Icons.goals width={icon_size} height={icon_size} />
+            ),
+        }}
+      />
+      <Tabs.Screen
+        name="domains"
+        options={{
+          title: "Domains",
+          tabBarIcon: ({ focused }) =>
+            focused ? (
+              <Icons.domainsActive width={icon_size} height={icon_size} />
+            ) : (
+              <Icons.domains width={icon_size} height={icon_size} />
+            ),
+        }}
+      />
     </Tabs>
   );
 }
