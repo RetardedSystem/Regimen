@@ -8,7 +8,9 @@ export default function Index() {
       image={require("../../../assets/Backgrounds/Home_bg.png")}
     >
       <Profile />
-      <KanbanColumn title="ToDo" />
+      <KanbanColumn title="todo" />
+      <KanbanColumn title="in_progress" />
+      <KanbanColumn title="done" />
     </ScreenBackground>
   );
 }
