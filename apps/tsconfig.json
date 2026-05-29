@@ -1,20 +1,17 @@
 {
+  /**
+   * KanbanColumn is a component that represents a column in a Kanban board. It takes a title prop that renders the appropriate styles and content based on the title.
+   *
+   * @param {Prop} props - The Prop object containing the title of the Kanban column, which can be "todo", "in_progress", or "done".
+   * @returns {JSX.Element} A React element representing the Kanban column with its header and content.
+   */
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@/assets/*": [
-        "./assets/*"
-      ]
+      "@/*": ["./src/*"],
+      "@/assets/*": ["./assets/*"]
     }
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts"
-  ]
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
 }
