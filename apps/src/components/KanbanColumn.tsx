@@ -1,10 +1,13 @@
-import { View, Text, ViewStyle, StyleSheet } from "react-native";
+// The logics for Date should be done.
+import { View, Text, ViewStyle, StyleSheet, ScrollView } from "react-native";
 import Colors from "../constants/Colors";
 import { getTasksByStatus } from "@/databases/getTasksByStatus";
 import { useEffect, useState } from "react";
+import Filter from "@/components/Filter";
+import TaskCard from "@/components/TaskCard";
 
 type Prop = {
-  title: "todo" | "in_progress" | "done";
+  title: "todo" | "in_progress" | "done" | "missed";
 };
 
 /**
@@ -17,22 +20,22 @@ type Prop = {
 export default function KanbanColumn(props: Prop) {
   let container: ViewStyle = {};
   let header: ViewStyle = {};
+  let title = "";
+
+  // It give any type of Array to Tasks.
   const [tasks, setTasks] = useState<any[]>([]);
 
+  // This is the God of the code.
+  // It fetches the tasks based on the status.
   useEffect(() => {
     async function load() {
       const data = await getTasksByStatus(props.title);
-
       setTasks(data);
     }
-
     load();
   }, [props.title]);
 
-  console.log("This is the task", tasks);
-
   // Determine the styles and title based on the provided title prop
-  let title = "";
   if (props.title === "todo") {
     container = styles.todo_container;
     title = "Todo";
@@ -45,11 +48,16 @@ export default function KanbanColumn(props: Prop) {
     container = styles.done_container;
     title = "Done";
     header = styles.done_header;
+  } else if (props.title === "missed") {
+    container = styles.backlog_container;
+    title = "Backlog";
+    header = styles.backlog_header;
   }
 
   return (
     <View style={container}>
       <View style={header}>
+        {/* Header */}
         <View style={styles.task_count}>
           <Text style={{ color: Colors.black, fontSize: 12 }}>
             {tasks.length}
@@ -57,13 +65,14 @@ export default function KanbanColumn(props: Prop) {
         </View>
         <Text style={styles.title}>{title}</Text>
       </View>
-      {/* Header */}
-
-      {props.title === "todo" && (
-        <View>
-          <Text>Todo Section</Text>
-        </View>
-      )}
+      <ScrollView
+        style={styles.test}
+        contentContainerStyle={{ alignItems: "center" }}
+      >
+        {tasks.map((task) => (
+          <TaskCard task={task} />
+        ))}
+      </ScrollView>
     </View>
   );
 }
@@ -90,7 +99,7 @@ const container: ViewStyle = {
 
 // Global Kanban Column Header Style, all Kanban Column Header inherits it.
 const header: ViewStyle = {
-  height: 40,
+  height: 35,
   width: "100%",
   borderTopLeftRadius: borderRadius,
   borderTopRightRadius: borderRadius,
@@ -102,21 +111,29 @@ const header: ViewStyle = {
 const styles = StyleSheet.create({
   todo_container: {
     ...container,
-    height: "50%",
+    height: "40%",
     left: "4%",
+    bottom: "27%",
+    shadowColor: Colors.red,
+  },
+  backlog_container: {
+    ...container,
+    height: "26%", // Make it Dynamic based on the number of tasks
+    backgroundColor: Colors.red,
     bottom: "4%",
+    left: "4%",
     shadowColor: Colors.red,
   },
   in_progress_container: {
     ...container,
-    height: "25%",
+    height: "31%",
     right: "4%",
-    bottom: "29%",
+    bottom: "36%",
     shadowColor: Colors.yellow,
   },
   done_container: {
     ...container,
-    height: "24%",
+    height: "30%",
     right: "4%",
     bottom: "4%",
     shadowColor: Colors.blue,
@@ -131,8 +148,14 @@ const styles = StyleSheet.create({
   },
   done_header: {
     ...header,
+
     backgroundColor: Colors.blue,
   },
+  backlog_header: {
+    ...header,
+    backgroundColor: Colors.red,
+  },
+
   title: {
     fontFamily: "Outfit-Bold",
     fontSize: 20,
@@ -142,11 +165,19 @@ const styles = StyleSheet.create({
   task_count: {
     position: "absolute",
     left: 10,
-    width: 23,
-    height: 22,
+    width: 21,
+    height: 20,
     borderRadius: 9,
     backgroundColor: Colors.white,
     alignItems: "center",
     justifyContent: "center",
+  },
+
+  test: {
+    position: "absolute",
+    backgroundColor: "transparent",
+    top: 44,
+    width: "100%",
+    height: 220,
   },
 });
