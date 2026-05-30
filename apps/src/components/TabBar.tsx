@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 
   blur: {
     width: "80%",
-    height: 70,
+    height: 60,
     borderRadius: 25,
     overflow: "hidden",
     backgroundColor: Colors.grey,

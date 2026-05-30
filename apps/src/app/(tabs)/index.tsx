@@ -11,6 +11,7 @@ export default function Index() {
       <KanbanColumn title="todo" />
       <KanbanColumn title="in_progress" />
       <KanbanColumn title="done" />
+      <KanbanColumn title="missed" />
     </ScreenBackground>
   );
 }
