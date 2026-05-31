@@ -1,10 +1,17 @@
+<<<<<<< Updated upstream
 import ScreenBackground from "@/components/ScreenBackground";
 import { Image, StyleSheet, Text, View } from "react-native";
+=======
+import KanbanColumn from "@/components/KanbanColumn";
+import Profile from "@/components/Profile";
+import ScreenBackground from "@/components/ScreenBackground";
+import background from "@/constants/Backgrounds";
+>>>>>>> Stashed changes
 
 export default function Index() {
   return (
     <ScreenBackground
-      image={require("../../../assets/Backgrounds/Home_bg.png")}
+      image={background.homeBg}
     >
       <View style={styles.container}>
         {/* Header */}
