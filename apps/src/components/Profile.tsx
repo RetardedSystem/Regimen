@@ -1,5 +1,9 @@
 // Write this code Priya
+<<<<<<< HEAD
 import color from "@/constants/Colors";
+=======
+
+>>>>>>> main
 import { Image, StyleSheet, Text, View } from "react-native";
 
 export default function Profile() {
@@ -40,13 +44,20 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 45,
+<<<<<<< HEAD
     backgroundColor: color.blue,
+=======
+    backgroundColor: "#5FA1CA",
+    borderWidth: 2,
+    borderColor: "#5FA1CA",
+>>>>>>> main
   },
 
   userInfo: {
     marginLeft: 20,
     flex: 1,
   },
+<<<<<<< HEAD
     description: {
     color: "black",
     fontSize: 18,
@@ -62,4 +73,6 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     wordWrap: 'break-word'
   }
+=======
+>>>>>>> main
 });

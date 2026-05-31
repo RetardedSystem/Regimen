@@ -1,74 +1,18 @@
-<<<<<<< Updated upstream
-import ScreenBackground from "@/components/ScreenBackground";
-import { Image, StyleSheet, Text, View } from "react-native";
-=======
 import KanbanColumn from "@/components/KanbanColumn";
 import Profile from "@/components/Profile";
 import ScreenBackground from "@/components/ScreenBackground";
 import background from "@/constants/Backgrounds";
->>>>>>> Stashed changes
 
 export default function Index() {
   return (
     <ScreenBackground
       image={background.homeBg}
     >
-      <View style={styles.container}>
-        {/* Header */}
-        <View style={styles.header}>
-          {/* Profile Image */}
-          <Image
-            source={require("../../../assets/Avatars/profile.png")}
-            style={styles.profileImage}
-          />
-
-          {/* User Info */}
-          <View style={styles.userInfo}>
-            <Text style={styles.name}>Samantha Jones</Text>
-
-            <Text style={styles.description}>A Lazy Sloth</Text>
-          </View>
-        </View>
-      </View>
-      {/* Delete this test element*/}
-      <View style={styles.nothing}></View>
+      <Profile />
+      <KanbanColumn title="todo" />
+      <KanbanColumn title="in_progress" />
+      <KanbanColumn title="done" />
+      <KanbanColumn title="missed" />
     </ScreenBackground>
   );
 }
-
-const styles = StyleSheet.create({
-  nothing: {
-    width: 100,
-    height: 100,
-    backgroundColor: "red",
-    borderRadius: 10,
-    position: "absolute",
-    bottom: 10,
-    left: 100,
-  },
-
-  container: {
-    marginTop: 15,
-    padding: 23,
-    elevation: 5,
-  },
-
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-
-  profileImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 45,
-    backgroundColor: "#5FA1CA",
-    borderWidth: 2,
-    borderColor: "#5FA1CA",
-  },
-
-  userInfo: {
-    marginLeft: 20,
-    flex: 1,
-  },
-});
