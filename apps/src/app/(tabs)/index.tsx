@@ -1,11 +1,12 @@
-import ScreenBackground from "@/components/ScreenBackground";
-import Profile from "@/components/Profile";
 import KanbanColumn from "@/components/KanbanColumn";
+import Profile from "@/components/Profile";
+import ScreenBackground from "@/components/ScreenBackground";
+import background from "@/constants/Backgrounds";
 
 export default function Index() {
   return (
     <ScreenBackground
-      image={require("../../../assets/Backgrounds/Home_bg.png")}
+      image={background.homeBg}
     >
       <Profile />
       <KanbanColumn title="todo" />

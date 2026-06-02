@@ -1,10 +1,11 @@
 import ScreenBackground from "@/components/ScreenBackground";
+import background from "@/constants/Backgrounds";
 import { Text, View } from "react-native";
 
 export default function Domain() {
   return (
     <ScreenBackground
-      image={require("../../../assets/Backgrounds/Domains_bg.png")}
+      image={background.domainsBg}
     >
       <View>
         <Text>Domains</Text>

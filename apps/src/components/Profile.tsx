@@ -1,5 +1,5 @@
 // Write this code Priya
-
+import color from "@/constants/Colors";
 import { Image, StyleSheet, Text, View } from "react-native";
 
 export default function Profile() {
@@ -40,13 +40,26 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 45,
-    backgroundColor: "#5FA1CA",
-    borderWidth: 2,
-    borderColor: "#5FA1CA",
+    backgroundColor: color.blue,
   },
 
   userInfo: {
     marginLeft: 20,
     flex: 1,
   },
+    description: {
+    color: "black",
+    fontSize: 18,
+    fontFamily: "Geologica",
+    fontWeight: "200" as const,
+  },
+
+  name: {
+    color: '#5FA1CA',
+    fontSize: 24,
+    fontFamily: 'Gabarito',
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    wordWrap: 'break-word'
+  }
 });
