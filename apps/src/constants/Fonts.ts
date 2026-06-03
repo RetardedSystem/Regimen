@@ -19,17 +19,16 @@ const Fonts: FontStyles = {
     fontFamily: "Gabarito",
     fontWeight: "200",
   },
-
-  Manjari_bold: {
-    fontFamily: "Manjari-Bold",
+  Nunito_bold: {
+    fontFamily: "Nunito_700Bold",
   },
 
-  Manjari_medium: {
-    fontFamily: "Manjari-Regular",
+  Nunito_medium: {
+    fontFamily: "Nunito_400Regular",
   },
 
-  Manjari_light: {
-    fontFamily: "Manjari-Thin",
+  Nunito_light: {
+    fontFamily: "Nunito_200ExtraLight",
   },
   // Change this
   description: {

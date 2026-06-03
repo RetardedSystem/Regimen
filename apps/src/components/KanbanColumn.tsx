@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontFamily: "Outfit-Bold",
+    fontFamily: "Gabarito",
     fontSize: 20,
     color: Colors.white,
     textTransform: "uppercase",

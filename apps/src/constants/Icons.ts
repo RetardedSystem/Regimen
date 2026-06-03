@@ -15,6 +15,9 @@ import CareerIcon from "@/assets/Icons/Career.svg";
 import EntertainmentIcon from "@/assets/Icons/Entertainment.svg";
 import EducationIcon from "@/assets/Icons/Education.svg";
 
+import DeadlineIcon from "@/assets/Icons/Deadline.svg";
+import SmalltickIcon from "@/assets/Icons/Smalltick.svg";
+
 const Icons = {
   // Screen Icons
   home: HomeIcon,
@@ -34,6 +37,10 @@ const Icons = {
   career: CareerIcon,
   entertainment: EntertainmentIcon,
   education: EducationIcon,
+
+  // Task Icons
+  deadline: DeadlineIcon,
+  smalltick: SmalltickIcon,
 };
 
 export default Icons;

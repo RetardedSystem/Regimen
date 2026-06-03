@@ -1,6 +1,13 @@
-import { Text, View, Pressable, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  Pressable,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import Colors from "../constants/Colors";
 import Icons from "../constants/Icons";
+import { useState } from "react";
 
 type Task = {
   category: string;
@@ -17,44 +24,119 @@ type Task = {
   title: string;
 };
 
+const categoryColors: Record<string, string> = {
+  todo: Colors.light_red,
+  in_progress: Colors.light_yellow,
+  done: Colors.light_blue,
+  missed: Colors.light_red,
+};
+
+const highlightColors: Record<string, string> = {
+  done: Colors.blue,
+  missed: Colors.red,
+  in_progress: Colors.yellow,
+  todo: Colors.red,
+};
+
 type Props = {
   task: Task;
 };
 
 export default function TaskCard({ task }: Props) {
+  const [completed, setCompleted] = useState(false);
+  const Category_Icon = Icons[task.category];
+  const backgroundColor = categoryColors[task.status] || Colors.white;
+  const highlightColor = highlightColors[task.status] || Colors.grey;
   return (
-    <Pressable style={styles.container} onPress={() => console.log(task)}>
-      <Text style={styles.title}>{task.title}</Text>
-      <Text style={styles.description}>{task.deadline}</Text>
+    <Pressable
+      style={[styles.container, { backgroundColor }]}
+      onPress={() => console.log(task)}
+    >
+      <View style={styles.content}>
+        {/* Header: Icon + Title*/}
+        <View style={styles.header}>
+          <Category_Icon width={15} height={15} />
+          <Text style={styles.title}>{task.title}</Text>
+        </View>
+        {/* Footer : Icon + Deadline*/}
+        <View style={styles.footer}>
+          <Icons.deadline width={9} height={9} color={highlightColor} />
+          <Text style={[styles.deadline, { color: highlightColor }]}>
+            {task.deadline}
+          </Text>
+        </View>
+      </View>
+
+      <TouchableOpacity
+        style={[styles.checkButton, completed && styles.completedButton]}
+        onPress={() => setCompleted(!completed)}
+      >
+        {completed && <Icons.smalltick />}
+      </TouchableOpacity>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    minHeight: 50,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+
+    minHeight: 40,
     width: "90%",
-    backgroundColor: Colors.white,
     borderRadius: 8,
-    padding: 5,
-    marginBottom: 12,
-    shadowColor: Colors.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    padding: 8,
+    marginBottom: 7,
+
+    // shadowColor: Colors.black,
+    // shadowOffset: { width: 0, height: 0 },
+    // shadowOpacity: 0.01,
+    // shadowRadius: 0.1,
+    // elevation: 1,
   },
-  icon: {
-    position: "absolute",
-    top: 16,
+  content: {
+    flex: 1,
+    marginRight: 5,
   },
+
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  footer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 5,
+  },
+
   title: {
+    fontFamily: "Nunito_700Bold",
     fontSize: 12,
-    fontWeight: "bold",
-    marginBottom: 8,
+    marginLeft: 5,
+    marginRight: 6,
   },
-  description: {
-    fontSize: 10,
+  deadline: {
+    fontSize: 9,
     color: Colors.grey,
+    marginLeft: 5,
+  },
+
+  checkButton: {
+    width: 20,
+    height: 20,
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: Colors.grey,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Colors.white,
+  },
+
+  completedButton: {
+    backgroundColor: Colors.white,
+    borderWidth: 2,
+    borderColor: Colors.blue,
   },
 });
