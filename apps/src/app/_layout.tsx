@@ -1,14 +1,20 @@
 import { Stack } from "expo-router";
-import { useFonts } from "expo-font";
 import { initDB } from "@/databases/initDB";
 import { useEffect } from "react";
+import {
+  Nunito_200ExtraLight,
+  Nunito_400Regular,
+  Nunito_700Bold,
+} from "@expo-google-fonts/nunito";
+import { useFonts } from "expo-font";
 
 export default function RootLayout() {
-  const [loaded] = useFonts({
-    Manjari_Regular: require("../constants/Fonts/Manjari-Regular.ttf"),
-    Manjari_Bold: require("../constants/Fonts/Manjari-Bold.ttf"),
-    Manjari_Thin: require("../constants/Fonts//Manjari-Thin.ttf"),
+  const [fontsLoaded] = useFonts({
+    Nunito_200ExtraLight,
+    Nunito_400Regular,
+    Nunito_700Bold,
   });
+
   useEffect(() => {
     initDB();
   }, []);
