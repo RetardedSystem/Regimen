@@ -27,8 +27,7 @@ export default function Profile() {
 const styles = StyleSheet.create({
   container: {
     marginTop: 15,
-    padding: 23,
-    elevation: 5,
+    padding: 10,
   },
 
   header: {
@@ -47,7 +46,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     flex: 1,
   },
-    description: {
+  description: {
     color: "black",
     fontSize: 18,
     fontFamily: "Geologica",
@@ -55,11 +54,11 @@ const styles = StyleSheet.create({
   },
 
   name: {
-    color: '#5FA1CA',
+    color: "#5FA1CA",
     fontSize: 24,
-    fontFamily: 'Gabarito',
-    fontWeight: '700',
-    textTransform: 'uppercase',
-    wordWrap: 'break-word'
-  }
+    fontFamily: "Gabarito",
+    fontWeight: "700",
+    textTransform: "uppercase",
+    wordWrap: "break-word",
+  },
 });

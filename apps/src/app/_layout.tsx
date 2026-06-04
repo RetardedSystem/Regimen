@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
+import { useEffect, useState } from "react";
 import { initDB } from "@/databases/initDB";
-import { useEffect } from "react";
 import {
   Nunito_200ExtraLight,
   Nunito_400Regular,
@@ -15,8 +15,19 @@ export default function RootLayout() {
     Nunito_700Bold,
   });
 
+  const [ready, setReady] = useState(false);
+
   useEffect(() => {
-    initDB();
+    async function setup() {
+      await initDB();
+      setReady(true);
+    }
+
+    setup();
   }, []);
+
+  if (!ready) {
+    return null;
+  }
   return <Stack screenOptions={{ headerShown: false }} />;
 }

@@ -8,6 +8,7 @@ import {
 import Colors from "../constants/Colors";
 import Icons from "../constants/Icons";
 import { useState } from "react";
+import { completeTasks } from "@/databases/completeTask";
 
 type Task = {
   category: string;
@@ -40,10 +41,15 @@ const highlightColors: Record<string, string> = {
 
 type Props = {
   task: Task;
+  onStatusChange: () => void;
 };
 
-export default function TaskCard({ task }: Props) {
-  const [completed, setCompleted] = useState(false);
+export default function TaskCard({ task, onStatusChange }: Props) {
+  async function handleComplete() {
+    await completeTasks(task.id);
+    onStatusChange();
+  }
+  const isCompleted = task.status === "done";
   const Category_Icon = Icons[task.category];
   const backgroundColor = categoryColors[task.status] || Colors.white;
   const highlightColor = highlightColors[task.status] || Colors.grey;
@@ -68,10 +74,10 @@ export default function TaskCard({ task }: Props) {
       </View>
 
       <TouchableOpacity
-        style={[styles.checkButton, completed && styles.completedButton]}
-        onPress={() => setCompleted(!completed)}
+        style={[styles.checkButton, isCompleted && styles.completedButton]}
+        onPress={handleComplete}
       >
-        {completed && <Icons.smalltick />}
+        {isCompleted && <Icons.smalltick />}
       </TouchableOpacity>
     </Pressable>
   );
@@ -88,12 +94,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 8,
     marginBottom: 7,
-
-    // shadowColor: Colors.black,
-    // shadowOffset: { width: 0, height: 0 },
-    // shadowOpacity: 0.01,
-    // shadowRadius: 0.1,
-    // elevation: 1,
   },
   content: {
     flex: 1,

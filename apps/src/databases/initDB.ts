@@ -5,7 +5,7 @@ export const db = SQLite.openDatabaseSync("app.db");
 export async function initDB() {
   // Goals Table
   await db.execAsync(`
-    DROP IF EXISTS
+    DROP TABLE IF EXISTS goals;
     CREATE TABLE IF NOT EXISTS goals (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
@@ -36,6 +36,7 @@ export async function initDB() {
   `);
   // Tasks Table
   await db.execAsync(`
+    DROP TABLE IF EXISTS tasks;    
     CREATE TABLE tasks (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
 
@@ -244,7 +245,7 @@ VALUES
     'Complete React Course',
     'Finish module 4',
     'education',
-    'in_progress',
+    'missed',
     '2026-05-09 15:00:00',
     '2026-06-01 18:00:00',
     NULL,
