@@ -1,18 +1,15 @@
-import KanbanColumn from "@/components/KanbanColumn";
 import Profile from "@/components/Profile";
 import ScreenBackground from "@/components/ScreenBackground";
+import KanbanBoard from "@/components/KanbanBoard";
 import background from "@/constants/Backgrounds";
+import Calender from "@/components/Calender";
 
 export default function Index() {
   return (
-    <ScreenBackground
-      image={background.homeBg}
-    >
+    <ScreenBackground image={background.homeBg}>
       <Profile />
-      <KanbanColumn title="todo" />
-      <KanbanColumn title="in_progress" />
-      <KanbanColumn title="done" />
-      <KanbanColumn title="missed" />
+      <Calender />
+      <KanbanBoard />
     </ScreenBackground>
   );
 }

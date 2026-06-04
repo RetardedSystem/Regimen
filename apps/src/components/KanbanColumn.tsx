@@ -1,58 +1,32 @@
 // The logics for Date should be done.
 import { View, Text, ViewStyle, StyleSheet, ScrollView } from "react-native";
 import Colors from "../constants/Colors";
-import { getTasksByStatus } from "@/databases/getTasksByStatus";
-import { useEffect, useState } from "react";
 import Filter from "@/components/Filter";
 import TaskCard from "@/components/TaskCard";
 
-type Prop = {
-  title: "todo" | "in_progress" | "done" | "missed";
+type Task = {
+  category: string;
+  completed_at: string;
+  deadline: string;
+  description: string;
+  group_id: number;
+  id: number;
+  is_recurring: number;
+  recurrence_days: string;
+  recurrence_type: string;
+  start_date: string;
+  status: string;
+  title: string;
 };
 
-/**
- * KanbanColumn is a component that represents a column in a Kanban board. It takes a title prop that renders the appropriate styles and content based on the title.
- *
- * @param {Prop} props - The Prop object containing the title of the Kanban column, which can be "todo", "in_progress", or "done".
- * @returns {JSX.Element} A React element representing the Kanban column with its header and content.
- */
+type Prop = {
+  title: "todo" | "in_progress" | "done" | "missed";
+  tasks: Task[];
+  reloadBoard: () => void;
+};
 
 export default function KanbanColumn(props: Prop) {
-  let container: ViewStyle = {};
-  let header: ViewStyle = {};
-  let title = "";
-
-  // It give any type of Array to Tasks.
-  const [tasks, setTasks] = useState<any[]>([]);
-
-  // This is the God of the code.
-  // It fetches the tasks based on the status.
-  useEffect(() => {
-    async function load() {
-      const data = await getTasksByStatus(props.title);
-      setTasks(data);
-    }
-    load();
-  }, [props.title]);
-
-  // Determine the styles and title based on the provided title prop
-  if (props.title === "todo") {
-    container = styles.todo_container;
-    title = "Todo";
-    header = styles.todo_header;
-  } else if (props.title === "in_progress") {
-    container = styles.in_progress_container;
-    title = "Progress";
-    header = styles.in_progress_header;
-  } else if (props.title === "done") {
-    container = styles.done_container;
-    title = "Done";
-    header = styles.done_header;
-  } else if (props.title === "missed") {
-    container = styles.backlog_container;
-    title = "Backlog";
-    header = styles.backlog_header;
-  }
+  const { title, container, header } = columnConfig[props.title];
 
   return (
     <View style={container}>
@@ -60,7 +34,7 @@ export default function KanbanColumn(props: Prop) {
         {/* Header */}
         <View style={styles.task_count}>
           <Text style={{ color: Colors.black, fontSize: 12 }}>
-            {tasks.length}
+            {props.tasks.length}
           </Text>
         </View>
         <Text style={styles.title}>{title}</Text>
@@ -69,8 +43,12 @@ export default function KanbanColumn(props: Prop) {
         style={styles.test}
         contentContainerStyle={{ alignItems: "center" }}
       >
-        {tasks.map((task) => (
-          <TaskCard task={task} />
+        {props.tasks.map((task) => (
+          <TaskCard
+            key={task.id}
+            task={task}
+            onStatusChange={props.reloadBoard}
+          />
         ))}
       </ScrollView>
     </View>
@@ -82,19 +60,20 @@ const borderRadius = 10;
 
 // Global Kanban Element Style, all Kanban Column inherits it.
 const container: ViewStyle = {
-  position: "absolute",
+  flex: 1,
   height: "30%",
-  width: "44%",
+  width: "100%",
   borderRadius: borderRadius,
   backgroundColor: Colors.white,
   alignItems: "center",
   shadowOffset: {
-    width: 2,
+    width: 4,
     height: 4,
   },
   shadowOpacity: 0.2,
   shadowRadius: 10,
   elevation: 2,
+  marginBottom: 10,
 };
 
 // Global Kanban Column Header Style, all Kanban Column Header inherits it.
@@ -109,48 +88,48 @@ const header: ViewStyle = {
 
 // Styles for each Kanban Column, they inherit the global styles and add specific properties
 const styles = StyleSheet.create({
+  // Containers
   todo_container: {
     ...container,
-    height: "40%",
-    left: "4%",
-    bottom: "27%",
+    minHeight: "45%",
     shadowColor: Colors.red,
   },
+
   backlog_container: {
     ...container,
-    height: "26%", // Make it Dynamic based on the number of tasks
+    minHeight: "20%", // Make it Dynamic based on the number of tasks
     backgroundColor: Colors.red,
-    bottom: "4%",
-    left: "4%",
     shadowColor: Colors.red,
   },
+
   in_progress_container: {
     ...container,
-    height: "31%",
-    right: "4%",
-    bottom: "36%",
+    minHeight: "31%",
     shadowColor: Colors.yellow,
   },
+
   done_container: {
     ...container,
-    height: "30%",
-    right: "4%",
-    bottom: "4%",
+    minHeight: "30%",
     shadowColor: Colors.blue,
   },
+
+  // Headers
   todo_header: {
     ...header,
     backgroundColor: Colors.red,
   },
+
   in_progress_header: {
     ...header,
     backgroundColor: Colors.yellow,
   },
+
   done_header: {
     ...header,
-
     backgroundColor: Colors.blue,
   },
+
   backlog_header: {
     ...header,
     backgroundColor: Colors.red,
@@ -175,9 +154,31 @@ const styles = StyleSheet.create({
 
   test: {
     position: "absolute",
-    backgroundColor: "transparent",
     top: 44,
     width: "100%",
-    height: 220,
+    height: "85%",
   },
 });
+
+const columnConfig = {
+  todo: {
+    title: "Todo",
+    container: styles.todo_container,
+    header: styles.todo_header,
+  },
+  in_progress: {
+    title: "Progress",
+    container: styles.in_progress_container,
+    header: styles.in_progress_header,
+  },
+  done: {
+    title: "Done",
+    container: styles.done_container,
+    header: styles.done_header,
+  },
+  missed: {
+    title: "Backlog",
+    container: styles.backlog_container,
+    header: styles.backlog_header,
+  },
+};
