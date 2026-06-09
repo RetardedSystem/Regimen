@@ -17,6 +17,14 @@ import EducationIcon from "@/assets/Icons/Education.svg";
 
 import DeadlineIcon from "@/assets/Icons/Deadline.svg";
 import SmalltickIcon from "@/assets/Icons/Smalltick.svg";
+import BigTickIcon from "@/assets/Icons/BigTick.svg";
+
+import ConstructionIcon from "@/assets/Icons/Construction.svg";
+import CalenderIcon from "@/assets/Icons/Calendar.svg";
+import TitleIcon from "@/assets/Icons/Title.svg";
+import DocumentIcon from "@/assets/Icons/Document.svg";
+import SirenIcon from "@/assets/Icons/Siren.svg";
+import TrashcanIcon from "@/assets/Icons/Trashcan.svg";
 
 const Icons = {
   // Screen Icons
@@ -41,6 +49,15 @@ const Icons = {
   // Task Icons
   deadline: DeadlineIcon,
   smalltick: SmalltickIcon,
+  bigTick: BigTickIcon,
+
+  // Misc Icons
+  construction: ConstructionIcon,
+  calendar: CalenderIcon,
+  title: TitleIcon,
+  document: DocumentIcon,
+  siren: SirenIcon,
+  trashcan: TrashcanIcon,
 };
 
 export default Icons;

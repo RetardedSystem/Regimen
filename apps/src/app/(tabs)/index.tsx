@@ -1,12 +1,11 @@
 import Profile from "@/components/Profile";
 import ScreenBackground from "@/components/ScreenBackground";
-import KanbanBoard from "@/components/KanbanBoard";
-import background from "@/constants/Backgrounds";
+import KanbanBoard from "@/components/kanban/KanbanBoard";
 import Calender from "@/components/Calender";
 
 export default function Index() {
   return (
-    <ScreenBackground image={background.homeBg}>
+    <ScreenBackground title="home">
       <Profile />
       <Calender />
       <KanbanBoard />

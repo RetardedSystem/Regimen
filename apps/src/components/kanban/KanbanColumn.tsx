@@ -1,8 +1,8 @@
 // The logics for Date should be done.
 import { View, Text, ViewStyle, StyleSheet, ScrollView } from "react-native";
-import Colors from "../constants/Colors";
+import Colors from "@/constants/Colors";
 import Filter from "@/components/Filter";
-import TaskCard from "@/components/TaskCard";
+import TaskCard from "@/components/kanban/TaskCard";
 
 type Task = {
   category: string;

@@ -4,9 +4,7 @@ import { Text, View } from "react-native";
 
 export default function Goal() {
   return (
-    <ScreenBackground
-      image={background.goalsBg}
-    >
+    <ScreenBackground title="goals">
       <View>
         <Text>Goals</Text>
       </View>
