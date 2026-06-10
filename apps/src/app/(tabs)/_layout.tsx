@@ -19,7 +19,11 @@ export default function TabsLayout() {
             focused ? (
               <Icons.homeActive width={icon_size} height={icon_size} />
             ) : (
-              <Icons.home width={icon_size} height={icon_size} />
+              <Icons.home
+                width={icon_size}
+                height={icon_size}
+                color={Colors.white}
+              />
             ),
         }}
       />
@@ -31,7 +35,11 @@ export default function TabsLayout() {
             focused ? (
               <Icons.goalsActive width={icon_size} height={icon_size} />
             ) : (
-              <Icons.goals width={icon_size} height={icon_size} />
+              <Icons.goals
+                width={icon_size}
+                height={icon_size}
+                color={Colors.white}
+              />
             ),
         }}
       />
@@ -43,7 +51,11 @@ export default function TabsLayout() {
             focused ? (
               <Icons.domainsActive width={icon_size} height={icon_size} />
             ) : (
-              <Icons.domains width={icon_size} height={icon_size} />
+              <Icons.domains
+                width={icon_size}
+                height={icon_size}
+                color={Colors.white}
+              />
             ),
         }}
       />

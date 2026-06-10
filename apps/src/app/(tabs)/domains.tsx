@@ -4,9 +4,7 @@ import { Text, View } from "react-native";
 
 export default function Domain() {
   return (
-    <ScreenBackground
-      image={background.domainsBg}
-    >
+    <ScreenBackground title="domains">
       <View>
         <Text>Domains</Text>
       </View>

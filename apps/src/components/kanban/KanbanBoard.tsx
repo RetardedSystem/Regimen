@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
-import KanbanColumn from "@/components/KanbanColumn";
+import KanbanColumn from "@/components/kanban/KanbanColumn";
 import { getTasks } from "@/databases/getTasks";
 
 export default function KanbanBoard() {

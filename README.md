@@ -17,6 +17,19 @@ Fix : Code fixes and Modifications
 Docs : If you have worked on the Documentation
 ```
 
+## Naming Conventions
+
+- Functions: camelCase
+- Variables: camelCase
+- Constants: UPPER_SNAKE_CASE
+- Components: PascalCase
+- Files: snake_case
+- Folders: snake_case
+
+## Documentation Standards
+
+- Use JSDoc for functions and classes.
+
 # Project Structure
 
 Packages/ is not created right now, current just focusing on the mobile application.

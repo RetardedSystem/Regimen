@@ -15,6 +15,7 @@ const Colors = {
   black: "#313337",
   grey: "#9A9A9A",
   white: "#FAFDF8",
+  purple: "#CAA1F0",
 };
 
 export default Colors;

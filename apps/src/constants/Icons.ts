@@ -7,16 +7,24 @@ import GoalsActiveIcon from "@/assets/Icons/Goals_Active.svg";
 import DomainsIcon from "@/assets/Icons/Domains.svg";
 import DomainsActiveIcon from "@/assets/Icons/Domains_Active.svg";
 
-import HealthIcon from "@/assets/Icons/Health.svg";
-import FinanceIcon from "@/assets/Icons/Finance.svg";
-import SocialIcon from "@/assets/Icons/Social.svg";
-import PersonalIcon from "@/assets/Icons/Personal.svg";
 import CareerIcon from "@/assets/Icons/Career.svg";
-import EntertainmentIcon from "@/assets/Icons/Entertainment.svg";
 import EducationIcon from "@/assets/Icons/Education.svg";
+import EntertainmentIcon from "@/assets/Icons/Entertainment.svg";
+import FinanceIcon from "@/assets/Icons/Finance.svg";
+import HealthIcon from "@/assets/Icons/Health.svg";
+import PersonalIcon from "@/assets/Icons/Personal.svg";
+import SocialIcon from "@/assets/Icons/Social.svg";
 
+import BigTickIcon from "@/assets/Icons/BigTick.svg";
 import DeadlineIcon from "@/assets/Icons/Deadline.svg";
 import SmalltickIcon from "@/assets/Icons/Smalltick.svg";
+
+import CalenderIcon from "@/assets/Icons/Calendar.svg";
+import ConstructionIcon from "@/assets/Icons/Construction.svg";
+import DocumentIcon from "@/assets/Icons/Document.svg";
+import SirenIcon from "@/assets/Icons/Siren.svg";
+import TitleIcon from "@/assets/Icons/Title.svg";
+import TrashcanIcon from "@/assets/Icons/Trashcan.svg";
 
 const Icons = {
   // Screen Icons
@@ -41,6 +49,15 @@ const Icons = {
   // Task Icons
   deadline: DeadlineIcon,
   smalltick: SmalltickIcon,
+  bigTick: BigTickIcon,
+
+  // Misc Icons
+  construction: ConstructionIcon,
+  calendar: CalenderIcon,
+  title: TitleIcon,
+  document: DocumentIcon,
+  siren: SirenIcon,
+  trashcan: TrashcanIcon,
 };
 
 export default Icons;

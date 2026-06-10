@@ -5,10 +5,12 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import Colors from "../constants/Colors";
-import Icons from "../constants/Icons";
+import Colors from "@/constants/Colors";
+import Icons from "@/constants/Icons";
 import { useState } from "react";
 import { completeTasks } from "@/databases/completeTask";
+import TaskWindow from "./TaskWindow";
+import { formatDateTime } from "@/constants/utils";
 
 type Task = {
   category: string;
@@ -53,11 +55,20 @@ export default function TaskCard({ task, onStatusChange }: Props) {
   const Category_Icon = Icons[task.category];
   const backgroundColor = categoryColors[task.status] || Colors.white;
   const highlightColor = highlightColors[task.status] || Colors.grey;
+  const [showWindow, setShowWindow] = useState(false);
+  const datetime =
+    task.status === "done"
+      ? formatDateTime(task.completed_at)
+      : formatDateTime(task.deadline);
+
   return (
     <Pressable
       style={[styles.container, { backgroundColor }]}
-      onPress={() => console.log(task)}
+      onPress={() => setShowWindow(true)}
     >
+      {showWindow && (
+        <TaskWindow task={task} onClose={() => setShowWindow(false)} />
+      )}
       <View style={styles.content}>
         {/* Header: Icon + Title*/}
         <View style={styles.header}>
@@ -68,7 +79,7 @@ export default function TaskCard({ task, onStatusChange }: Props) {
         <View style={styles.footer}>
           <Icons.deadline width={9} height={9} color={highlightColor} />
           <Text style={[styles.deadline, { color: highlightColor }]}>
-            {task.deadline}
+            {datetime}
           </Text>
         </View>
       </View>
