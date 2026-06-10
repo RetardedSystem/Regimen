@@ -5,7 +5,7 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import Backgrounds from "@/constants/Backgrounds";
+import { background } from "@/constants/Images";
 
 type Props = {
   title: "home" | "goals" | "domains";
@@ -13,9 +13,9 @@ type Props = {
 };
 
 const imageMap: Record<string, ImageSourcePropType> = {
-  home: Backgrounds.homeBg,
-  goals: Backgrounds.goalsBg,
-  domains: Backgrounds.domainsBg,
+  home: background.homeBg,
+  goals: background.goalsBg,
+  domains: background.domainsBg,
 };
 
 const ScreenBackground = ({ title, children }: Props) => {
