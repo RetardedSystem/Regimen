@@ -89,6 +89,35 @@ export async function initDB() {
   );
   `);
 
+ //Users Table
+
+    await db.execAsync(`  
+    DROP TABLE IF EXISTS users; 
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL,
+        email TEXT UNIQUE,
+        avatar_id INTEGER,
+        xp INTEGER NOT NULL DEFAULT 0,
+        streak_days INTEGER NOT NULL DEFAULT 0,
+
+    FOREIGN KEY (avatar_id)
+        REFERENCES avatars(id)
+        ON DELETE SET NULL
+);
+    `);
+
+    //Avatars Table
+    await db.execAsync(`
+        DROP TABLE IF EXISTS avatars;
+        CREATE TABLE IF NOT EXISTS avatars (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL UNIQUE,
+        description TEXT NOT NULL,
+        unlock_xp INTEGER NOT NULL DEFAULT 0
+        );
+        `);
+
   // Test Inserts
   await db.execAsync(`
   INSERT INTO goals (title, category, start_time, end_time, deadline, status)
@@ -270,6 +299,71 @@ VALUES
 );
 
 `);
+
+await db.execAsync(`
+    INSERT INTO avatars (
+    name,
+    unlock_xp,
+    description
+)
+VALUES
+
+(
+    'Sloth',
+    14,
+    'have sloth of work'
+),
+
+(
+    'Panda',
+    28,
+    'Still living in Panda-mic'
+),
+
+(
+    'Rabbit',
+    42,
+    'Feeling hoop-less'
+),
+
+(
+    'Tortoise',
+    56,
+    'Still have a shell lot to do'
+),
+
+(
+    'Beaver',
+    70,
+    'Should Beaver-king'
+),
+(
+    'Owl',
+    84,
+    'Howl much is left?'
+),
+(
+    'Bee',
+    100,
+    'Bee-zier Than Ever'
+)
+;
+`);
+
+  await db.execAsync(`
+INSERT INTO users
+(username, email, avatar_id)
+VALUES
+(
+    'SAMANTHA JONES',
+    'sam@example.com',
+    1
+),
+(
+    'PRIYA CHELANI',
+    'priya@retarded.com',
+    5);`
+);
 
   console.log("Database initialized successfully");
 }
