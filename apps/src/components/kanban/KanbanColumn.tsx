@@ -35,7 +35,6 @@ export default function KanbanColumn(props: Prop) {
         <View style={styles.task_count}>
           <Text style={{ color: Colors.black, fontSize: 12 }}>
             {props.tasks.length}
-            {props.tasks.length}
           </Text>
         </View>
         <Text style={styles.title}>{title}</Text>
