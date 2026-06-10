@@ -6,7 +6,6 @@ import Calender from "@/components/Calender";
 export default function Index() {
   return (
     <ScreenBackground title="home">
-    <ScreenBackground title="home">
       <Profile />
       <Calender />
       <KanbanBoard />
