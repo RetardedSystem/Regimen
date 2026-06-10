@@ -1,14 +1,8 @@
-import {
-  Text,
-  Modal,
-  View,
-  StyleSheet,
-  ViewStyle,
-  TextInput,
-} from "react-native";
+import { Text, Modal, View, StyleSheet } from "react-native";
 import Colors from "@/constants/Colors";
 import Icons from "@/constants/Icons";
 import { useState } from "react";
+import FormField from "./formField";
 
 type Task = {
   category: string;
@@ -32,6 +26,11 @@ type Props = {
 
 export default function TaskWindow({ task, onClose }: Props) {
   const [title, setTitle] = useState(task.title);
+  const [description, setDescription] = useState(task.description);
+  const [startDate, setStartDate] = useState(new Date(task.start_date));
+  const [deadline, setDeadline] = useState(new Date(task.deadline));
+  const [goals, setGoals] = useState(task.group_id);
+
   return (
     <Modal
       transparent
@@ -40,18 +39,66 @@ export default function TaskWindow({ task, onClose }: Props) {
     >
       {/* The overlay that dims the background, make it so if someone press it the Window closes */}
       <View style={styles.overlay}>
+        {/* The actual Window*/}
         <View style={styles.container}>
           <Text style={styles.task_count}>Task {task.id}</Text>
-          <View style={questionContainer}>
-            <Icons.title style={styles.icon} width={20} />
-            <TextInput style={styles.textbox}>{title}</TextInput>
-            <Text style={styles.hint}>What do you wanna do?</Text>
+
+          {/* Title */}
+          <FormField
+            name="title"
+            value={title}
+            onChange={setTitle}
+            type="text"
+          />
+          {/* Description */}
+          <FormField
+            name="description"
+            value={description}
+            onChange={setDescription}
+            type="text"
+          />
+
+          {/* Start Time + Deadline */}
+          <View style={styles.multiFieldContainer}>
+            <View style={{ width: "48%" }}>
+              <FormField
+                name="startTime"
+                value={startDate}
+                onChange={(date) => setStartDate(date)}
+                type="datetime"
+              />
+            </View>
+
+            <View style={{ width: "48%" }}>
+              <FormField
+                name="deadline"
+                value={deadline}
+                onChange={(date) => setDeadline(date)}
+                type="datetime"
+              />
+            </View>
           </View>
-          <View style={questionContainer}></View>
-          <View style={questionContainer}></View>
-          <View style={questionContainer}></View>
-          <View style={questionContainer}></View>
-          <View style={styles.progressBar}></View>
+
+          {/* Goals + Domain */}
+          <View style={styles.multiFieldContainer}>
+            <View style={{ width: "56%" }}>
+              <FormField
+                name="goals"
+                value={"Goal 1"}
+                onChange={() => { }}
+                type="dropdown"
+              />
+            </View>
+
+            <View style={{ width: "40%" }}>
+              <FormField
+                name="domain"
+                value={"Work, Personal"}
+                onChange={() => { }}
+                type="dropdown"
+              />
+            </View>
+          </View>
           <View style={styles.ProgressTitle}></View>
           <Text style={styles.sarcasm}>Sarcasm</Text>
           <Icons.bigTick style={styles.tick} color={Colors.blue} />
@@ -65,16 +112,6 @@ export default function TaskWindow({ task, onClose }: Props) {
     </Modal>
   );
 }
-
-const questionContainer: ViewStyle = {
-  width: "90%",
-  height: 35,
-  backgroundColor: "transparent",
-  borderRadius: 5,
-  borderColor: Colors.grey,
-  borderWidth: 1,
-  justifyContent: "center",
-};
 
 const styles = StyleSheet.create({
   overlay: {
@@ -93,7 +130,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 5,
-    padding: 10,
+    padding: 15,
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
@@ -106,6 +143,13 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     color: Colors.blue,
   },
+
+  multiFieldContainer: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+
   progressBar: {
     minHeight: 30,
     width: "90%",
@@ -128,29 +172,5 @@ const styles = StyleSheet.create({
     right: 50,
     width: 30,
     height: 30,
-  },
-  icon: {
-    color: Colors.purple,
-    left: 5,
-  },
-  hint: {
-    position: "absolute",
-    fontSize: 7,
-    fontFamily: "nunito",
-    fontWeight: 500,
-    color: Colors.grey,
-    right: 5,
-    bottom: 5,
-  },
-  textbox: {
-    position: "absolute",
-    top: 0,
-    right: 0,
-    width: "90%",
-    height: "100%",
-    fontSize: 13,
-    fontFamily: "nunito",
-    fontWeight: 500,
-    color: Colors.black,
   },
 });
