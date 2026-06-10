@@ -1,8 +1,8 @@
+import Calender from "@/components/Calender";
+import KanbanBoard from "@/components/KanbanBoard";
 import Profile from "@/components/Profile";
 import ScreenBackground from "@/components/ScreenBackground";
-import KanbanBoard from "@/components/KanbanBoard";
-import background from "@/constants/Backgrounds";
-import Calender from "@/components/Calender";
+import {background} from "@/constants/Images";
 
 export default function Index() {
   return (

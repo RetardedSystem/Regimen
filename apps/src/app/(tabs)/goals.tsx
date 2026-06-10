@@ -1,5 +1,5 @@
 import ScreenBackground from "@/components/ScreenBackground";
-import background from "@/constants/Backgrounds";
+import { background } from "@/constants/Images";
 import { Text, View } from "react-native";
 
 export default function Goal() {
