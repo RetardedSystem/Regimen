@@ -1,13 +1,8 @@
 import ScreenBackground from "@/components/ScreenBackground";
-<<<<<<< HEAD
-import background from "@/constants/Backgrounds";
 import { Text, View, Button } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState } from "react";
-=======
 import { background } from "@/constants/Images";
-import { Text, View } from "react-native";
->>>>>>> main
 
 export default function Goal() {
   const [date, setDate] = useState(new Date());
