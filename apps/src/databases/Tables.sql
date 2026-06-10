@@ -86,3 +86,29 @@ CREATE TABLE tasks (
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
+
+--User Table--
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT.
+        username TEXT NOT NULL,
+        email TEXT UNIQUE,
+        avatar_id INTEGER,
+        xp INTEGER NOT NULL DEFAULT 0,
+        streak_days INTEGER NOT NULL DEFAULT 0,
+
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (avatar_id)
+        REFERENCES avatars(id)
+        ON DELETE SET NULL
+    );
+--Avatars Table--
+        CREATE TABLE IF NOT EXISTS avatars (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL UNIQUE,
+        description TEXT NOT NULL,
+        image_uri TEXT NOT NULL,
+        unlock_xp INTEGER NOT NULL DEFAULT 0,
+        );
