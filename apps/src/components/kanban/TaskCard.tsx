@@ -13,18 +13,21 @@ import TaskWindow from "./TaskWindow";
 import { formatDateTime } from "@/constants/utils";
 
 type Task = {
-  category: string;
-  completed_at: string;
-  deadline: string;
-  description: string;
-  group_id: number;
   id: number;
+  task_id: number;
+  title: string;
+  description: string;
+  status: string;
+  date: string;
+  start_date: string;
+  deadline: string;
+  completed_at: string;
+  goal_id: number;
+  domain: string;
+  priority: number;
   is_recurring: number;
   recurrence_days: string;
   recurrence_type: string;
-  start_date: string;
-  status: string;
-  title: string;
 };
 
 const categoryColors: Record<string, string> = {
@@ -52,7 +55,7 @@ export default function TaskCard({ task, onStatusChange }: Props) {
     onStatusChange();
   }
   const isCompleted = task.status === "done";
-  const Category_Icon = Icons[task.category];
+  const Category_Icon = Icons[task.domain];
   const backgroundColor = categoryColors[task.status] || Colors.white;
   const highlightColor = highlightColors[task.status] || Colors.grey;
   const [showWindow, setShowWindow] = useState(false);
@@ -88,7 +91,7 @@ export default function TaskCard({ task, onStatusChange }: Props) {
         style={[styles.checkButton, isCompleted && styles.completedButton]}
         onPress={handleComplete}
       >
-        {isCompleted && <Icons.smalltick />}
+        {isCompleted && <Icons.smalltick color={Colors.blue} />}
       </TouchableOpacity>
     </Pressable>
   );

@@ -23,7 +23,9 @@ export default function KanbanBoard() {
       <View style={styles.leftColumn}>
         <KanbanColumn
           title="todo"
-          tasks={tasks.filter((task) => task.status === "todo")}
+          tasks={tasks
+            .filter((task) => task.status === "todo")
+            .sort((a, b) => b.priority - a.priority)}
           reloadBoard={loadTasks}
         />
         <KanbanColumn

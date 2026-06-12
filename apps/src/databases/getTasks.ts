@@ -7,7 +7,7 @@ export async function getTasks() {
     ORDER BY
       CASE
         WHEN status = 'done' THEN completed_at
-        ELSE deadline
+        ELSE priority
       END DESC
   `);
 }

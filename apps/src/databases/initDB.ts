@@ -9,9 +9,9 @@ export async function initDB() {
     CREATE TABLE IF NOT EXISTS goals (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
-    category TEXT NOT NULL
+    domain TEXT NOT NULL
     CHECK(
-      category IN(
+      domain IN(
         'personal',
         'career',
         'health',
@@ -34,18 +34,20 @@ export async function initDB() {
     )
   );
   `);
+
   // Tasks Table
   await db.execAsync(`
     DROP TABLE IF EXISTS tasks;    
     CREATE TABLE tasks (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    task_id INTEGER,
 
     title TEXT NOT NULL,
 
     description TEXT,
 
-    category TEXT,
-
+    domain TEXT,
+    
     status TEXT NOT NULL DEFAULT 'todo'
     CHECK (
         status IN (
@@ -62,6 +64,11 @@ export async function initDB() {
 
     completed_at DATETIME,
 
+    priority INTEGER DEFAULT 2
+    CHECK(priority BETWEEN 1 AND 3),
+  
+    date DATE DEFAULT CURRENT_DATE,
+
     -- Recurrence
     is_recurring BOOLEAN NOT NULL DEFAULT 0,
 
@@ -71,8 +78,7 @@ export async function initDB() {
             'daily',
             'weekly',
             'monthly',
-            'yearly',
-            'custom'
+            'yearly'
         )
         OR recurrence_type IS NULL
     ),
@@ -80,18 +86,18 @@ export async function initDB() {
     recurrence_days TEXT DEFAULT NULL,
 
     -- Link to Goals table
-    group_id INTEGER,
+    goal_id INTEGER,
 
-    FOREIGN KEY (group_id)
+    FOREIGN KEY (goal_id)
     REFERENCES goals(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
   );
   `);
 
- //Users Table
+  //Users Table
 
-    await db.execAsync(`  
+  await db.execAsync(`  
     DROP TABLE IF EXISTS users; 
     CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -107,8 +113,8 @@ export async function initDB() {
 );
     `);
 
-    //Avatars Table
-    await db.execAsync(`
+  //Avatars Table
+  await db.execAsync(`
         DROP TABLE IF EXISTS avatars;
         CREATE TABLE IF NOT EXISTS avatars (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -120,45 +126,50 @@ export async function initDB() {
 
   // Test Inserts
   await db.execAsync(`
-  INSERT INTO goals (title, category, start_time, end_time, deadline, status)
-VALUES
-('Morning Workout', 'health', '2026-05-01 06:00:00', '2026-05-01 07:00:00', '2026-06-01 00:00:00', 'in_progress'),
+      INSERT INTO goals (title, domain, start_time, end_time, deadline, status)
+      VALUES
+      ('Morning Workout', 'health', '2026-05-01 06:00:00', '2026-05-01 07:00:00', '2026-06-01 00:00:00', 'in_progress'),
 
-('Learn SQL', 'education', '2026-05-02 18:00:00', '2026-05-02 20:00:00', '2026-07-01 00:00:00', 'todo'),
+    ('Learn SQL', 'education', '2026-05-02 18:00:00', '2026-05-02 20:00:00', '2026-07-01 00:00:00', 'todo'),
 
-('Save Emergency Fund', 'finance', '2026-05-03 09:00:00', '2026-05-03 10:00:00', '2026-12-31 00:00:00', 'in_progress'),
+    ('Save Emergency Fund', 'finance', '2026-05-03 09:00:00', '2026-05-03 10:00:00', '2026-12-31 00:00:00', 'in_progress'),
 
-('Build Portfolio Website', 'career', '2026-05-04 10:00:00', '2026-05-04 13:00:00', '2026-08-01 00:00:00', 'todo'),
+    ('Build Portfolio Website', 'career', '2026-05-04 10:00:00', '2026-05-04 13:00:00', '2026-08-01 00:00:00', 'todo'),
 
-('Read 12 Books', 'personal', '2026-05-05 20:00:00', '2026-05-05 21:00:00', '2026-12-31 00:00:00', 'in_progress'),
+    ('Read 12 Books', 'personal', '2026-05-05 20:00:00', '2026-05-05 21:00:00', '2026-12-31 00:00:00', 'in_progress'),
 
-('Meditation Routine', 'health', '2026-05-06 07:00:00', '2026-05-06 07:30:00', '2026-09-01 00:00:00', 'done'),
+    ('Meditation Routine', 'health', '2026-05-06 07:00:00', '2026-05-06 07:30:00', '2026-09-01 00:00:00', 'done'),
 
-('Travel with Friends', 'social', '2026-05-07 08:00:00', '2026-05-07 09:00:00', '2026-11-15 00:00:00', 'todo'),
+    ('Travel with Friends', 'social', '2026-05-07 08:00:00', '2026-05-07 09:00:00', '2026-11-15 00:00:00', 'todo'),
 
-('Movie Marathon', 'entertainment', '2026-05-08 19:00:00', '2026-05-08 23:00:00', '2026-06-15 00:00:00', 'done'),
+    ('Movie Marathon', 'entertainment', '2026-05-08 19:00:00', '2026-05-08 23:00:00', '2026-06-15 00:00:00', 'done'),
 
-('Online Certification', 'education', '2026-05-09 15:00:00', '2026-05-09 17:00:00', '2026-10-01 00:00:00', 'in_progress'),
+    ('Online Certification', 'education', '2026-05-09 15:00:00', '2026-05-09 17:00:00', '2026-10-01 00:00:00', 'in_progress'),
 
-('Networking Events', 'career', '2026-05-10 18:00:00', '2026-05-10 20:00:00', '2026-09-30 00:00:00', 'todo');
+    ('Networking Events', 'career', '2026-05-10 18:00:00', '2026-05-10 20:00:00', '2026-09-30 00:00:00', 'todo');
 `);
 
   await db.execAsync(`
 INSERT INTO tasks (
+    id,
+    task_id,
     title,
     description,
-    category,
+    domain,
     status,
     start_date,
     deadline,
     completed_at,
+    priority,
     is_recurring,
     recurrence_type,
     recurrence_days,
-    group_id
+    goal_id
 )
 VALUES
 (
+    1,
+    1,
     'Push-ups',
     'Do 50 push-ups',
     'health',
@@ -167,12 +178,14 @@ VALUES
     '2026-05-01 07:00:00',
     '2026-05-01 06:45:00',
     1,
+    1,
     'daily',
     'Mon,Tue,Wed,Thu,Fri',
     1
 ),
-
 (
+    2,
+    2,
     'SQL Practice',
     'Complete JOIN exercises',
     'education',
@@ -180,6 +193,7 @@ VALUES
     '2026-05-02 18:00:00',
     '2026-05-10 20:00:00',
     NULL,
+    2,
     1,
     'weekly',
     'Sat,Sun',
@@ -187,6 +201,8 @@ VALUES
 ),
 
 (
+    3,
+    3,
     'Deposit Savings',
     'Add money to savings account',
     'finance',
@@ -194,6 +210,7 @@ VALUES
     '2026-05-03 09:00:00',
     '2026-05-15 10:00:00',
     NULL,
+    3,
     0,
     NULL,
     NULL,
@@ -201,6 +218,8 @@ VALUES
 ),
 
 (
+    4,
+    4,
     'Design Homepage',
     'Create landing page UI',
     'career',
@@ -208,6 +227,7 @@ VALUES
     '2026-05-04 10:00:00',
     '2026-05-20 18:00:00',
     NULL,
+    1,
     0,
     NULL,
     NULL,
@@ -215,6 +235,8 @@ VALUES
 ),
 
 (
+    5,
+    5,
     'Read Atomic Habits',
     'Finish first 5 chapters',
     'personal',
@@ -222,6 +244,7 @@ VALUES
     '2026-05-05 20:00:00',
     '2026-05-12 21:00:00',
     '2026-05-11 20:30:00',
+    2,
     1,
     'daily',
     'Mon,Wed,Fri',
@@ -229,6 +252,8 @@ VALUES
 ),
 
 (
+    6,
+    6,
     'Morning Meditation',
     'Meditate for 15 minutes',
     'health',
@@ -236,6 +261,7 @@ VALUES
     '2026-05-06 07:00:00',
     '2026-05-06 07:30:00',
     '2026-05-06 07:20:00',
+    3,
     1,
     'daily',
     'Everyday',
@@ -243,6 +269,8 @@ VALUES
 ),
 
 (
+    7,
+    7,
     'Book Hotel',
     'Reserve hotel rooms',
     'social',
@@ -250,6 +278,7 @@ VALUES
     '2026-05-07 08:00:00',
     '2026-08-01 12:00:00',
     NULL,
+    1,
     0,
     NULL,
     NULL,
@@ -257,6 +286,8 @@ VALUES
 ),
 
 (
+    8,
+    8,
     'Watch Sci-Fi Movies',
     'Watch 3 classic sci-fi movies',
     'entertainment',
@@ -264,6 +295,7 @@ VALUES
     '2026-05-08 19:00:00',
     '2026-05-08 23:00:00',
     NULL,
+    2,
     0,
     NULL,
     NULL,
@@ -271,6 +303,8 @@ VALUES
 ),
 
 (
+    9,
+    9,
     'Complete React Course',
     'Finish module 4',
     'education',
@@ -278,6 +312,7 @@ VALUES
     '2026-05-09 15:00:00',
     '2026-06-01 18:00:00',
     NULL,
+    3,
     1,
     'weekly',
     'Tue,Thu',
@@ -285,6 +320,8 @@ VALUES
 ),
 
 (
+    10,
+    10,
     'Attend Tech Meetup',
     'Meet software professionals',
     'career',
@@ -292,15 +329,15 @@ VALUES
     '2026-05-10 18:00:00',
     '2026-06-15 20:00:00',
     NULL,
+    1,
     0,
     NULL,
     NULL,
     10
 );
-
 `);
 
-await db.execAsync(`
+  await db.execAsync(`
     INSERT INTO avatars (
     name,
     unlock_xp,
@@ -362,8 +399,7 @@ VALUES
 (
     'PRIYA CHELANI',
     'priya@retarded.com',
-    5);`
-);
+    5);`);
 
   console.log("Database initialized successfully");
 }

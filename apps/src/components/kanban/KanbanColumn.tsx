@@ -5,18 +5,21 @@ import Filter from "@/components/Filter";
 import TaskCard from "@/components/kanban/TaskCard";
 
 type Task = {
-  category: string;
-  completed_at: string;
-  deadline: string;
-  description: string;
-  group_id: number;
   id: number;
+  task_id: number;
+  title: string;
+  description: string;
+  status: string;
+  date: string;
+  start_date: string;
+  deadline: string;
+  completed_at: string;
+  goal_id: number;
+  domain: string;
+  priority: number;
   is_recurring: number;
   recurrence_days: string;
   recurrence_type: string;
-  start_date: string;
-  status: string;
-  title: string;
 };
 
 type Prop = {
@@ -27,7 +30,6 @@ type Prop = {
 
 export default function KanbanColumn(props: Prop) {
   const { title, container, header } = columnConfig[props.title];
-
   return (
     <View style={container}>
       <View style={header}>

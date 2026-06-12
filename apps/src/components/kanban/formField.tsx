@@ -4,12 +4,14 @@ import Icons from "@/constants/Icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState } from "react";
 import { formatDateTime, formatSqlDate } from "@/constants/utils";
+import { Dropdown } from "react-native-element-dropdown";
 
 type Prop = {
   type: "text" | "datetime" | "dropdown" | "checkbox";
   name: string;
   value: any;
   onChange: (value: any) => void;
+  data?: any; // For dropdown options
 };
 
 const icons: Record<any, any> = {
@@ -19,6 +21,8 @@ const icons: Record<any, any> = {
   deadline: Icons.calendar,
   goals: Icons.goals,
   domain: Icons.domains,
+  priority: Icons.siren,
+  recurringType: Icons.loop,
 };
 
 const hints: Record<any, string> = {
@@ -28,6 +32,8 @@ const hints: Record<any, string> = {
   deadline: "Deadline",
   goals: "Goals",
   domain: "Domain",
+  priority: "Priority",
+  recurringType: "Recurring Type",
 };
 
 function TextField(props: Prop) {
@@ -84,9 +90,9 @@ function DateTimePickerField(props: Prop) {
 
   return (
     <>
-      <Text style={styles.text} onPress={showDateTimePicker}>
-        {formatDateTime(formatSqlDate(date))}
-      </Text>
+      <Pressable style={styles.textbox} onPress={showDateTimePicker}>
+        <Text style={styles.text}>{formatDateTime(formatSqlDate(date))}</Text>
+      </Pressable>
 
       {show && (
         <DateTimePicker
@@ -100,9 +106,40 @@ function DateTimePickerField(props: Prop) {
   );
 }
 
+function DropdownField(props: Prop) {
+  const [isFocus, setIsFocus] = useState(false);
+  return (
+    <View style={styles.dropdownContainer}>
+      <Dropdown
+        containerStyle={styles.dropboxStyle}
+        selectedTextStyle={styles.text}
+        inputSearchStyle={styles.inputSearchStyle}
+        placeholder={!isFocus ? "Batman" : "..."}
+        placeholderStyle={styles.text}
+        searchPlaceholder="Search..."
+        itemTextStyle={styles.itemList}
+        data={props.data}
+        search
+        maxHeight={300}
+        labelField="label"
+        valueField="value"
+        placeholder={!isFocus ? "Select item" : "..."}
+        searchPlaceholder="Search..."
+        value={props.value}
+        onFocus={() => setIsFocus(true)}
+        onChange={(item) => {
+          props.onChange(item.value);
+          setIsFocus(false);
+        }}
+      />
+    </View>
+  );
+}
+
 const FieldComponents = {
   text: TextField,
   datetime: DateTimePickerField,
+  dropdown: DropdownField,
 };
 
 export default function FormField(props: Prop) {
@@ -135,15 +172,13 @@ const styles = StyleSheet.create({
     left: 30,
     width: "90%",
     height: "100%",
+    justifyContent: "center",
     fontSize: 13,
     fontFamily: "nunito",
     fontWeight: 500,
     color: Colors.black,
   },
   text: {
-    position: "absolute",
-    left: 30,
-    top: 7,
     fontSize: 12,
     fontFamily: "nunito",
     fontWeight: 500,
@@ -162,5 +197,32 @@ const styles = StyleSheet.create({
     color: Colors.grey,
     right: 5,
     bottom: 5,
+  },
+
+  dropdownContainer: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    width: "80%",
+    height: "100%",
+    justifyContent: "center",
+  },
+  dropboxStyle: {
+    borderColor: Colors.purple,
+    borderRadius: 8,
+  },
+  inputSearchStyle: {
+    height: 30,
+    fontSize: 9,
+    textAlign: "center",
+    fontFamily: "nunito",
+    borderRadius: 10,
+    borderColor: Colors.grey,
+  },
+  itemList: {
+    borderBottomColor: Colors.grey,
+    fontSize: 12,
+    marginBottom: -10,
+    marginTop: -10,
   },
 });
