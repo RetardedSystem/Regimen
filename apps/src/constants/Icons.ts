@@ -25,6 +25,7 @@ import DocumentIcon from "@/assets/Icons/Document.svg";
 import SirenIcon from "@/assets/Icons/Siren.svg";
 import TitleIcon from "@/assets/Icons/Title.svg";
 import TrashcanIcon from "@/assets/Icons/Trashcan.svg";
+import LoopIcon from "@/assets/Icons/Loop.svg";
 
 const Icons = {
   // Screen Icons
@@ -58,6 +59,7 @@ const Icons = {
   document: DocumentIcon,
   siren: SirenIcon,
   trashcan: TrashcanIcon,
+  loop: LoopIcon,
 };
 
 export default Icons;
