@@ -4,6 +4,8 @@ import Icons from "@/constants/Icons";
 import { useState, useEffect } from "react";
 import FormField from "./formField";
 import { getGoals } from "@/databases/getGoals";
+import { formatSqlDate } from "@/constants/utils";
+import { updateTask } from "@/databases/getTasks";
 
 type Task = {
   id: number;
@@ -23,11 +25,6 @@ type Task = {
   recurrence_type: string;
 };
 
-type Props = {
-  task: Task;
-  onClose: () => void;
-};
-
 const priporityOptions = [
   { label: "Low", value: 1 },
   { label: "Medium", value: 2 },
@@ -42,14 +39,73 @@ const recurrenceTypeOptions = [
   { label: "Yearly", value: "yearly" },
 ];
 
-export default function TaskWindow({ task, onClose }: Props) {
+const weekDaysOptions = [
+  { label: "Mon", value: "1" },
+  { label: "Tue", value: "2" },
+  { label: "Wed", value: "3" },
+  { label: "Thu", value: "4" },
+  { label: "Fri", value: "5" },
+  { label: "Sat", value: "6" },
+  { label: "Sun", value: "7" },
+];
+
+const monthDaysOptions = Array.from({ length: 31 }, (_, i) => ({
+  label: (i + 1).toString(),
+  value: (i + 1).toString(),
+}));
+
+type Props = {
+  task: Task;
+  reloadBoard: () => void;
+  onClose: () => void;
+};
+/**
+ * This is the Task Window, it appears when you click on a Task Card, Icons
+ * It allows you to edit the task details, Update the Database and Reloads the Board.
+ * @param task The Task Object that contains all the details of the Task. @See Task Type.
+ * @param onClose A hook from Parent that Closes the Window
+ * @param reloadBoard A hook that reload the board and reflect the changes.
+ */
+export default function TaskWindow({ task, onClose, reloadBoard }: Props) {
+  // Local States for the Task Details
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
   const [startDate, setStartDate] = useState(new Date(task.start_date));
   const [deadline, setDeadline] = useState(new Date(task.deadline));
-
-  // This for the Goal Dropdown.
   const [goalID, setGoalID] = useState(task.goal_id);
+  const [priority, setPriority] = useState(task.priority);
+  const [recurrenceType, setRecurrenceType] = useState(task.recurrence_type);
+  const [recurrenceDays, setRecurrenceDays] = useState(
+    task.recurrence_days ? task.recurrence_days.split(",") : [],
+  );
+
+  // A callback when Save Icon is Pressed,
+  // It updates the Task in the Database
+  // Reloads the Board and Closes the Window.
+  const handleSave = async () => {
+    try {
+      const is_recurring = recurrenceType ? 1 : 0;
+      const updatedTask = {
+        id: task.id,
+        title: title,
+        description: description,
+        start_date: formatSqlDate(startDate),
+        deadline: formatSqlDate(deadline),
+        goal_id: goalID,
+        priority: priority,
+        is_recurring: is_recurring,
+        recurrence_type: recurrenceType,
+        recurrence_days: recurrenceDays.join(","),
+      };
+
+      await updateTask(updatedTask);
+      reloadBoard();
+      onClose();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  // This for the Goal Dropdown.
   const [dropdownGoals, setDropdownGoals] = useState([]);
 
   useEffect(() => {
@@ -68,8 +124,14 @@ export default function TaskWindow({ task, onClose }: Props) {
   }, []);
   // Dropdown being consistent with every render. that why its a state.
 
-  const [priority, setPriority] = useState(task.priority);
-  const [recurrenceType, setRecurrenceType] = useState(task.recurrence_type);
+  // @todo Make this with Switch
+  let recurrenceDaysOptions: any[] = [];
+
+  if (recurrenceType === "weekly") {
+    recurrenceDaysOptions = weekDaysOptions;
+  } else if (recurrenceType === "monthly") {
+    recurrenceDaysOptions = monthDaysOptions;
+  }
 
   return (
     <Modal
@@ -156,11 +218,11 @@ export default function TaskWindow({ task, onClose }: Props) {
 
             <View style={{ width: "51%" }}>
               <FormField
-                name="domain"
-                value={"Work, Personal"}
-                data={dropdownGoals}
-                onChange={() => { }}
-                type="dropdown"
+                name="recurringDays"
+                value={recurrenceDays}
+                data={recurrenceDaysOptions}
+                onChange={setRecurrenceDays}
+                type="checkbox"
               />
             </View>
           </View>
@@ -169,7 +231,11 @@ export default function TaskWindow({ task, onClose }: Props) {
           <View style={styles.ProgressTitle}></View>
 
           <Text style={styles.sarcasm}>Sarcasm</Text>
-          <Icons.bigTick style={styles.tick} color={Colors.blue} />
+          <Icons.bigTick
+            style={styles.tick}
+            color={Colors.blue}
+            onPress={handleSave}
+          />
           <Icons.trashcan
             style={[styles.tick, { right: 15 }]}
             fill={Colors.light_red}
@@ -181,6 +247,7 @@ export default function TaskWindow({ task, onClose }: Props) {
   );
 }
 
+// Styles Duhhhhh
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,

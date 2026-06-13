@@ -46,13 +46,13 @@ const highlightColors: Record<string, string> = {
 
 type Props = {
   task: Task;
-  onStatusChange: () => void;
+  reloadBoard: () => void;
 };
 
-export default function TaskCard({ task, onStatusChange }: Props) {
+export default function TaskCard({ task, reloadBoard }: Props) {
   async function handleComplete() {
     await completeTasks(task.id);
-    onStatusChange();
+    reloadBoard();
   }
   const isCompleted = task.status === "done";
   const Category_Icon = Icons[task.domain];
@@ -70,7 +70,11 @@ export default function TaskCard({ task, onStatusChange }: Props) {
       onPress={() => setShowWindow(true)}
     >
       {showWindow && (
-        <TaskWindow task={task} onClose={() => setShowWindow(false)} />
+        <TaskWindow
+          task={task}
+          onClose={() => setShowWindow(false)}
+          reloadBoard={reloadBoard}
+        />
       )}
       <View style={styles.content}>
         {/* Header: Icon + Title*/}

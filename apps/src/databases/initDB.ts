@@ -179,8 +179,8 @@ VALUES
     '2026-05-01 06:45:00',
     1,
     1,
-    'daily',
-    'Mon,Tue,Wed,Thu,Fri',
+    'weekly',
+    '1,2,3,4,5',
     1
 ),
 (
@@ -196,7 +196,7 @@ VALUES
     2,
     1,
     'weekly',
-    'Sat,Sun',
+    '6,7',
     2
 ),
 
@@ -246,8 +246,8 @@ VALUES
     '2026-05-11 20:30:00',
     2,
     1,
-    'daily',
-    'Mon,Wed,Fri',
+    'weekly',
+    '1,3,5',
     5
 ),
 
@@ -264,7 +264,7 @@ VALUES
     3,
     1,
     'daily',
-    'Everyday',
+    NULL,
     6
 ),
 
@@ -315,7 +315,7 @@ VALUES
     3,
     1,
     'weekly',
-    'Tue,Thu',
+    '2,4',
     9
 ),
 
