@@ -1,3 +1,7 @@
+// This Component is a Reusable Form Field that can Render Different Types of Inputs.
+// Supports Text Input, DateTime Picker, Dropdown, and MultiSelect (Checkbox) Fields.
+// The Component also Displays an Icon and a Hint for Each Field Based on the Field Name.
+
 import { View, StyleSheet, Text, TextInput, Pressable } from "react-native";
 import Colors from "@/constants/Colors";
 import Icons from "@/constants/Icons";
@@ -5,14 +9,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState } from "react";
 import { formatDateTime, formatSqlDate } from "@/constants/utils";
 import { Dropdown } from "react-native-element-dropdown";
-
-type Prop = {
-  type: "text" | "datetime" | "dropdown" | "checkbox";
-  name: string;
-  value: any;
-  onChange: (value: any) => void;
-  data?: any; // For dropdown options
-};
+import { MultiSelect } from "react-native-element-dropdown";
 
 const icons: Record<any, any> = {
   title: Icons.title,
@@ -23,6 +20,7 @@ const icons: Record<any, any> = {
   domain: Icons.domains,
   priority: Icons.siren,
   recurringType: Icons.loop,
+  recurringDays: Icons.loop,
 };
 
 const hints: Record<any, string> = {
@@ -34,8 +32,13 @@ const hints: Record<any, string> = {
   domain: "Domain",
   priority: "Priority",
   recurringType: "Recurring Type",
+  recurringDays: "Recurring Days",
 };
 
+/**
+ * TextField: A simple text input field for entering single-line text.
+ * @todo An Dynamic Multiline Text Field can be Implemented in Future if needed.
+ */
 function TextField(props: Prop) {
   return (
     <TextInput
@@ -46,12 +49,16 @@ function TextField(props: Prop) {
   );
 }
 
+/**
+ * DateTimePickerField: A combined date and time picker that allows to select both date and time afterwards.
+ *  @see : https://github.com/react-native-datetimepicker/datetimepicker
+ */
 function DateTimePickerField(props: Prop) {
   // There are three states here:
   // Date : This the Main Date Time
   // Mode : Picker can be Either Date or Time
   // Show : This is to Show the Picker or Not
-  const [date, setDate] = useState(props.value);
+  const date = props.value;
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
 
@@ -71,7 +78,7 @@ function DateTimePickerField(props: Prop) {
     }
 
     if (mode === "date") {
-      setDate(selectedDate);
+      props.onChange(selectedDate);
 
       // Open time picker next
       setMode("time");
@@ -83,7 +90,7 @@ function DateTimePickerField(props: Prop) {
       updatedDate.setHours(selectedDate.getHours());
       updatedDate.setMinutes(selectedDate.getMinutes());
 
-      setDate(updatedDate);
+      props.onChange(updatedDate);
       setShow(false);
     }
   };
@@ -106,46 +113,109 @@ function DateTimePickerField(props: Prop) {
   );
 }
 
+/**
+ * DropdownField: A dropdown selector that allows to choose one option from a list of options.
+ * @see : https://www.npmjs.com/package/react-native-element-dropdown
+ * @todo : A Custom Dropdown can be Implemented in Future if needed.
+ */
 function DropdownField(props: Prop) {
-  const [isFocus, setIsFocus] = useState(false);
   return (
-    <View style={styles.dropdownContainer}>
-      <Dropdown
-        containerStyle={styles.dropboxStyle}
-        selectedTextStyle={styles.text}
-        inputSearchStyle={styles.inputSearchStyle}
-        placeholder={!isFocus ? "Batman" : "..."}
-        placeholderStyle={styles.text}
-        searchPlaceholder="Search..."
-        itemTextStyle={styles.itemList}
-        data={props.data}
-        search
-        maxHeight={300}
-        labelField="label"
-        valueField="value"
-        placeholder={!isFocus ? "Select item" : "..."}
-        searchPlaceholder="Search..."
-        value={props.value}
-        onFocus={() => setIsFocus(true)}
-        onChange={(item) => {
-          props.onChange(item.value);
-          setIsFocus(false);
-        }}
-      />
-    </View>
+    <Dropdown
+      style={styles.dropdownContainer}
+      containerStyle={styles.dropboxStyle}
+      selectedTextStyle={styles.text}
+      inputSearchStyle={styles.inputSearchStyle}
+      placeholderStyle={styles.text}
+      searchPlaceholder="Search..."
+      itemTextStyle={styles.itemList}
+      activeColor={Colors.purple}
+      data={props.data}
+      search
+      maxHeight={300}
+      labelField="label"
+      valueField="value"
+      value={props.value}
+      onChange={(item) => {
+        props.onChange(item.value);
+      }}
+    />
   );
 }
 
+/**
+ * MultiselectField: A multi-select dropdown that allows to choose multiple options from a list of options.
+ * @see : https://www.npmjs.com/package/react-native-element-dropdown
+ * @todo : A Custom MultiSelect can be Implemented in Future if needed.
+ */
+function MultiselectField(props: Prop) {
+  // Create a placeholder string that shows the selected options as a comma-separated list
+  const placeholder = props.data
+    .filter((item) => props.value?.includes(item.value))
+    .map((item) => item.label)
+    .join(", ");
+
+  return (
+    <MultiSelect
+      style={styles.dropdownContainer}
+      selectedStyle={styles.hidden}
+      placeholderStyle={styles.text}
+      containerStyle={styles.dropboxStyle}
+      selectedTextStyle={styles.text}
+      itemTextStyle={styles.itemList}
+      data={props.data}
+      labelField="label"
+      valueField="value"
+      placeholder={placeholder || "None"}
+      value={props.value}
+      onChange={props.onChange}
+      activeColor={Colors.purple}
+    />
+  );
+}
+
+// Mapping of Field Types to their Corresponding Components
 const FieldComponents = {
   text: TextField,
   datetime: DateTimePickerField,
   dropdown: DropdownField,
+  checkbox: MultiselectField,
 };
 
+type Prop = {
+  type: "text" | "datetime" | "dropdown" | "checkbox";
+  name: string;
+  value: any;
+  onChange: (value: any) => void;
+  data?: any; // For dropdown options
+};
+/**
+ * A dynamic form field component that renders a specific input type
+ * The component contains, an Icon, the Input Field, and a Hint Text.
+ * Each Field Type is Implemented as a Separate Component for Better Modularity and Readability.
+ * A Field is where the user can Input (text, datetime, dropdown, checkbox).
+ *
+ * @component
+ * @example
+ * ```tsx
+ * <FormField
+ * type="dropdown"
+ * name="country"
+ * value={selectedCountry}
+ * onChange={(val) => setCountry(val)}
+ * data={['USA', 'Canada', 'UK']}
+ * />
+ * ```
+ * @param {Prop} props - The configuration properties for the form field.
+ * @param {Prop['type']} props.type - The rendering strategy for the input (e.g., 'text', 'dropdown').
+ * @param {Prop['name']} props.name - Used to look up the associated Icon and hint text ( @todo Change this in Future)
+ * @param {Prop['value']} props.value - The current state value of the field.
+ * @param {Prop['onChange']} props.onChange - Callback triggered when the field's value changes.
+ * @param {Prop['data']} [props.data] - Optional supplementary data, primarily used for dropdown options.
+ */
 export default function FormField(props: Prop) {
-  const Icon = icons[props.name] || Icons.title;
-  const hint = hints[props.name] || "Input";
-  const Field = FieldComponents[props.type];
+  const Icon = icons[props.name] || Icons.title; // Chose the Icon from icons Object
+  const hint = hints[props.name] || "Input"; // Chose the Hint from hints Object
+  const Field = FieldComponents[props.type]; // Chose the Field Component from FieldComponents Object
 
   return (
     <View style={styles.questionContainer}>
@@ -156,6 +226,7 @@ export default function FormField(props: Prop) {
   );
 }
 
+// Styles Duhh
 const styles = StyleSheet.create({
   questionContainer: {
     width: "100%",
@@ -224,5 +295,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginBottom: -10,
     marginTop: -10,
+  },
+  hidden: {
+    position: "absolute",
+    width: 0,
+    height: 0,
+    borderWidth: 0,
   },
 });

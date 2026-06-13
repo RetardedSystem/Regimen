@@ -46,11 +46,7 @@ export default function KanbanColumn(props: Prop) {
         contentContainerStyle={{ alignItems: "center" }}
       >
         {props.tasks.map((task) => (
-          <TaskCard
-            key={task.id}
-            task={task}
-            onStatusChange={props.reloadBoard}
-          />
+          <TaskCard key={task.id} task={task} reloadBoard={props.reloadBoard} />
         ))}
       </ScrollView>
     </View>
