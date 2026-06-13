@@ -5,43 +5,42 @@ import { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
 export default function Profile() {
+  const [user, setUser] = useState<any>(null);
+  const [avatar, setAvatar] = useState<any>(null);
+  async function loadUser() {
+    // Need to design and create authentication and get the current user as per the active login
+    const user = await getUsers(2);
+    setUser(user);
+  }
+  if (user) {
+    const avatar = getAvatar(user.avatar_id);
+  }
+  useEffect(() => {
+    loadUser();
+  }, []);
 
-          const [user, setUser] =  useState<any>(null);
-          const [avatar, setAvatar] =  useState<any>(null);
-          async function loadUser() {
-          // Need to design and create authentication and get the current user as per the active login
-          const user = await getUsers(2);
-            setUser(user);
-          }
-          if(user){
-            const avatar = getAvatar(user.avatar_id)
-          }
-        
-          useEffect(() => {
-            loadUser();
-          }, []);
+  useEffect(() => {
+    async function loadAvatar() {
+      if (!user?.avatar_id) return;
 
-          useEffect(() => {
-          async function loadAvatar() {
-            if (!user?.avatar_id) return;
+      const avatarData = await getAvatar(user.avatar_id);
+      setAvatar(avatarData);
+    }
 
-            const avatarData = await getAvatar(user.avatar_id);
-            setAvatar(avatarData);
-          }
-
-          loadAvatar();
-        }, [user]);
-          console.log("Users", user?.username)
+    loadAvatar();
+  }, [user]);
+  console.log("Users", user?.username);
   return (
     <View style={styles.container}>
       {/* Header */}
+
       <View style={styles.header}>
         {/* Profile Image */}
         <Image
-          source={require('@/assets/Avatars/Beaver.png')}
+          source={require("@/assets/Avatars/Beaver.png")}
           style={styles.profileImage}
         />
-
+        <View></View>
         {/* User Info */}
         <View style={styles.userInfo}>
           <Text style={styles.name}>{user?.username}</Text>
