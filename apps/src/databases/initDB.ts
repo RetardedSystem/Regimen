@@ -40,7 +40,6 @@ export async function initDB() {
     DROP TABLE IF EXISTS tasks;    
     CREATE TABLE tasks (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    task_id INTEGER,
 
     title TEXT NOT NULL,
 
@@ -86,7 +85,7 @@ export async function initDB() {
     recurrence_days TEXT DEFAULT NULL,
 
     -- Link to Goals table
-    goal_id INTEGER,
+    goal_id INTEGER DEFAULT 1,
 
     FOREIGN KEY (goal_id)
     REFERENCES goals(id)
@@ -95,40 +94,63 @@ export async function initDB() {
   );
   `);
 
+  // Task Instances Table
+  await db.execAsync(`
+    DROP TABLE IF EXISTS task_instances;
+    CREATE TABLE IF NOT EXISTS task_instances(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    task_id INTEGER NOT NULL,
+    instance_date DATE NOT NULL,
+    status TEXT NOT NULL DEFAULT 'todo'
+    CHECK(
+      status IN(
+        'todo',
+        'in_progress',
+        'done',
+        'missed'
+      )
+    ),
+    FOREIGN KEY(task_id)
+        REFERENCES tasks(id)
+        ON DELETE CASCADE
+  );
+  `);
+
   //Users Table
 
   await db.execAsync(`  
     DROP TABLE IF EXISTS users; 
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT NOT NULL,
-        email TEXT UNIQUE,
-        avatar_id INTEGER,
-        xp INTEGER NOT NULL DEFAULT 0,
-        streak_days INTEGER NOT NULL DEFAULT 0,
+    CREATE TABLE IF NOT EXISTS users(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL,
+    email TEXT UNIQUE,
+    avatar_id INTEGER,
+    xp INTEGER NOT NULL DEFAULT 0,
+    streak_days INTEGER NOT NULL DEFAULT 0,
 
-    FOREIGN KEY (avatar_id)
+    FOREIGN KEY(avatar_id)
         REFERENCES avatars(id)
         ON DELETE SET NULL
-);
-    `);
+  );
+  `);
 
   //Avatars Table
   await db.execAsync(`
         DROP TABLE IF EXISTS avatars;
-        CREATE TABLE IF NOT EXISTS avatars (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL UNIQUE,
-        description TEXT NOT NULL,
-        unlock_xp INTEGER NOT NULL DEFAULT 0
-        );
-        `);
+        CREATE TABLE IF NOT EXISTS avatars(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    description TEXT NOT NULL,
+    unlock_xp INTEGER NOT NULL DEFAULT 0
+  );
+  `);
 
   // Test Inserts
   await db.execAsync(`
-      INSERT INTO goals (title, domain, start_time, end_time, deadline, status)
-      VALUES
-      ('Morning Workout', 'health', '2026-05-01 06:00:00', '2026-05-01 07:00:00', '2026-06-01 00:00:00', 'in_progress'),
+      INSERT INTO goals(title, domain, start_time, end_time, deadline, status)
+  VALUES
+    ('Default Goal', 'personal', NULL, NULL, NULL, 'todo'),
+    ('Morning Workout', 'health', '2026-05-01 06:00:00', '2026-05-01 07:00:00', '2026-06-01 00:00:00', 'in_progress'),
 
     ('Learn SQL', 'education', '2026-05-02 18:00:00', '2026-05-02 20:00:00', '2026-07-01 00:00:00', 'todo'),
 
@@ -147,12 +169,11 @@ export async function initDB() {
     ('Online Certification', 'education', '2026-05-09 15:00:00', '2026-05-09 17:00:00', '2026-10-01 00:00:00', 'in_progress'),
 
     ('Networking Events', 'career', '2026-05-10 18:00:00', '2026-05-10 20:00:00', '2026-09-30 00:00:00', 'todo');
-`);
+  `);
 
   await db.execAsync(`
-INSERT INTO tasks (
+INSERT INTO tasks(
     id,
-    task_id,
     title,
     description,
     domain,
@@ -165,241 +186,262 @@ INSERT INTO tasks (
     recurrence_type,
     recurrence_days,
     goal_id
-)
-VALUES
-(
-    1,
-    1,
-    'Push-ups',
-    'Do 50 push-ups',
-    'health',
-    'done',
-    '2026-05-01 06:00:00',
-    '2026-05-01 07:00:00',
-    '2026-05-01 06:45:00',
-    1,
-    1,
-    'weekly',
-    '1,2,3,4,5',
-    1
-),
-(
-    2,
-    2,
-    'SQL Practice',
-    'Complete JOIN exercises',
-    'education',
-    'in_progress',
-    '2026-05-02 18:00:00',
-    '2026-05-10 20:00:00',
-    NULL,
-    2,
-    1,
-    'weekly',
-    '6,7',
-    2
-),
+  )
+  VALUES
+    (
+      1,
+      'Push-ups',
+      'Do 50 push-ups',
+      'health',
+      'done',
+      '2026-05-01 06:00:00',
+      '2026-05-01 07:00:00',
+      '2026-06-01 06:45:00',
+      1,
+      1,
+      'weekly',
+      '1,2,3,4,5',
+      1
+    ),
+    (
+      2,
+      'SQL Practice',
+      'Complete JOIN exercises',
+      'education',
+      'in_progress',
+      '2026-05-02 18:00:00',
+      '2026-06-10 20:00:00',
+      NULL,
+      2,
+      1,
+      'weekly',
+      '6,7',
+      2
+    ),
 
-(
-    3,
-    3,
-    'Deposit Savings',
-    'Add money to savings account',
-    'finance',
-    'todo',
-    '2026-05-03 09:00:00',
-    '2026-05-15 10:00:00',
-    NULL,
-    3,
-    0,
-    NULL,
-    NULL,
-    3
-),
+    (
+      3,
+      'Deposit Savings',
+      'Add money to savings account',
+      'finance',
+      'todo',
+      '2026-05-03 09:00:00',
+      '2026-05-15 10:00:00',
+      '2026-05-03 09:30:00',
+      3,
+      0,
+      NULL,
+      NULL,
+      3
+    ),
 
-(
-    4,
-    4,
-    'Design Homepage',
-    'Create landing page UI',
-    'career',
-    'in_progress',
-    '2026-05-04 10:00:00',
-    '2026-05-20 18:00:00',
-    NULL,
-    1,
-    0,
-    NULL,
-    NULL,
-    4
-),
+    (
+      4,
+      'Design Homepage',
+      'Create landing page UI',
+      'career',
+      'in_progress',
+      '2026-05-04 10:00:00',
+      '2026-05-20 18:00:00',
+      NULL,
+      1,
+      0,
+      NULL,
+      NULL,
+      4
+    ),
 
-(
-    5,
-    5,
-    'Read Atomic Habits',
-    'Finish first 5 chapters',
-    'personal',
-    'done',
-    '2026-05-05 20:00:00',
-    '2026-05-12 21:00:00',
-    '2026-05-11 20:30:00',
-    2,
-    1,
-    'weekly',
-    '1,3,5',
-    5
-),
+    (
+      5,
+      'Read Atomic Habits',
+      'Finish first 5 chapters',
+      'personal',
+      'done',
+      '2026-05-05 20:00:00',
+      '2026-05-12 21:00:00',
+      '2026-06-02 20:30:00',
+      2,
+      1,
+      'weekly',
+      '1,3,5',
+      5
+    ),
 
-(
-    6,
-    6,
-    'Morning Meditation',
-    'Meditate for 15 minutes',
-    'health',
-    'done',
-    '2026-05-06 07:00:00',
-    '2026-05-06 07:30:00',
-    '2026-05-06 07:20:00',
-    3,
-    1,
-    'daily',
-    NULL,
-    6
-),
+    (
+      6,
+      'Morning Meditation',
+      'Meditate for 15 minutes',
+      'health',
+      'done',
+      '2026-05-06 07:00:00',
+      '2026-05-06 07:30:00',
+      NULL,
+      3,
+      1,
+      'daily',
+      NULL,
+      6
+    ),
 
-(
-    7,
-    7,
-    'Book Hotel',
-    'Reserve hotel rooms',
-    'social',
-    'todo',
-    '2026-05-07 08:00:00',
-    '2026-08-01 12:00:00',
-    NULL,
-    1,
-    0,
-    NULL,
-    NULL,
-    7
-),
+    (
+      7,
+      'Book Hotel',
+      'Reserve hotel rooms',
+      'social',
+      'todo',
+      '2026-05-07 08:00:00',
+      '2026-08-01 12:00:00',
+      NULL,
+      1,
+      0,
+      NULL,
+      NULL,
+      7
+    ),
 
-(
-    8,
-    8,
-    'Watch Sci-Fi Movies',
-    'Watch 3 classic sci-fi movies',
-    'entertainment',
-    'todo',
-    '2026-05-08 19:00:00',
-    '2026-05-08 23:00:00',
-    NULL,
-    2,
-    0,
-    NULL,
-    NULL,
-    8
-),
+    (
+      8,
+      'Watch Sci-Fi Movies',
+      'Watch 3 classic sci-fi movies',
+      'entertainment',
+      'todo',
+      '2026-05-08 19:00:00',
+      '2026-05-08 23:00:00',
+      NULL,
+      2,
+      0,
+      NULL,
+      NULL,
+      8
+    ),
 
-(
-    9,
-    9,
-    'Complete React Course',
-    'Finish module 4',
-    'education',
-    'missed',
-    '2026-05-09 15:00:00',
-    '2026-06-01 18:00:00',
-    NULL,
-    3,
-    1,
-    'weekly',
-    '2,4',
-    9
-),
+    (
+      9,
+      'Complete React Course',
+      'Finish module 4',
+      'education',
+      'missed',
+      '2026-05-09 15:00:00',
+      '2026-06-01 18:00:00',
+      NULL,
+      3,
+      1,
+      'weekly',
+      '2,4',
+      9
+    ),
 
-(
-    10,
-    10,
-    'Attend Tech Meetup',
-    'Meet software professionals',
-    'career',
-    'todo',
-    '2026-05-10 18:00:00',
-    '2026-06-15 20:00:00',
-    NULL,
-    1,
-    0,
-    NULL,
-    NULL,
-    10
-);
-`);
+    (
+      10,
+      'Attend Tech Meetup',
+      'Meet software professionals',
+      'career',
+      'todo',
+      '2026-05-10 18:00:00',
+      '2026-06-15 20:00:00',
+      '2026-06-03 19:00:00',
+      1,
+      0,
+      NULL,
+      NULL,
+      10
+    );
+  `);
 
   await db.execAsync(`
-    INSERT INTO avatars (
+    INSERT INTO task_instances(
+    task_id,
+    instance_date,
+    status
+  )
+  VALUES
+    (1, '2026-06-01', 'done'),
+    (1, '2026-06-02', 'todo'),
+    (1, '2026-06-03', 'todo'),
+
+    (2, '2026-06-02', 'in_progress'),
+    (2, '2026-06-03', 'todo'),
+
+    (3, '2026-06-03', 'done'),
+    
+    (4, '2026-06-02', 'todo'),
+    (4, '2026-06-03', 'todo'),
+
+    (5, '2026-06-02', 'done'),
+    (6, '2026-06-02', 'todo'),
+    (6, '2026-06-03', 'in_progress'),
+    (7, '2026-06-01', 'todo'),
+    (7, '2026-06-02', 'in_progress'),
+    (8, '2026-06-03', 'todo'),
+    (9, '2026-06-02', 'missed'),
+    (9, '2026-06-03', 'missed'),
+    (10, '2026-06-02', 'missed'),
+    (10, '2026-06-03', 'done');
+  `);
+
+  await db.execAsync(`
+    INSERT INTO avatars(
     name,
     unlock_xp,
     description
-)
-VALUES
+  )
+  VALUES
 
-(
-    'Sloth',
-    14,
-    'have sloth of work'
-),
+    (
+      'Sloth',
+      14,
+      'have sloth of work'
+    ),
 
-(
-    'Panda',
-    28,
-    'Still living in Panda-mic'
-),
+    (
+      'Panda',
+      28,
+      'Still living in Panda-mic'
+    ),
 
-(
-    'Rabbit',
-    42,
-    'Feeling hoop-less'
-),
+    (
+      'Rabbit',
+      42,
+      'Feeling hoop-less'
+    ),
 
-(
-    'Tortoise',
-    56,
-    'Still have a shell lot to do'
-),
+    (
+      'Tortoise',
+      56,
+      'Still have a shell lot to do'
+    ),
 
-(
-    'Beaver',
-    70,
-    'Should Beaver-king'
-),
-(
-    'Owl',
-    84,
-    'Howl much is left?'
-),
-(
-    'Bee',
-    100,
-    'Bee-zier Than Ever'
-)
-;
-`);
+    (
+      'Beaver',
+      70,
+      'Should Beaver-king'
+    ),
+    (
+      'Owl',
+      84,
+      'Howl much is left?'
+    ),
+    (
+      'Bee',
+      100,
+      'Bee-zier Than Ever'
+    )
+    ;
+  `);
 
   await db.execAsync(`
 INSERT INTO users
-(username, email, avatar_id)
-VALUES
-(
-    'SAMANTHA JONES',
-    'sam@example.com',
-    1
-),
-(
-    'PRIYA CHELANI',
-    'priya@retarded.com',
-    5);`);
+    (username, email, avatar_id)
+  VALUES
+    (
+      'SAMANTHA JONES',
+      'sam@example.com',
+      1
+    ),
+    (
+      'PRIYA CHELANI',
+      'priya@retarded.com',
+      5); `);
 
   console.log("Database initialized successfully");
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import KanbanColumn from "@/components/kanban/KanbanColumn";
-import { getTasks } from "@/databases/getTasks";
+import { getTasksByDate } from "@/databases/taskQuery";
 
 export default function KanbanBoard() {
   // It give any type of Array to Tasks.
@@ -9,7 +9,7 @@ export default function KanbanBoard() {
 
   // It a reusable function fetches all the Tasks
   async function loadTasks() {
-    const data = await getTasks();
+    const data = await getTasksByDate("2026-06-03");
     setTasks(data);
   }
 
