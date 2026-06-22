@@ -9,45 +9,38 @@ import { db } from "./initDB";
 export async function getTasksByDate(date: string) {
   return await db.getAllAsync(`
     SELECT
-      ti.id AS id,
-      ti.task_id,
+        ti.id AS id,
+        ti.task_id,
 
-      t.title,
-      t.description,
+        t.title,
+        t.description,
 
-      ti.status,
+        ti.status,
 
-      ti.instance_date AS date,
+        ti.instance_date AS date,
 
-      t.start_date,
-      t.deadline,
-      t.completed_at,
+        t.start_date,
+        t.deadline,
+        t.completed_at,
 
-      t.goal_id,
-      g.domain,
+        t.goal_id,
+        t.domain,
+        t.priority,
 
-      t.priority,
-
-      t.is_recurring,
-      t.recurrence_days,
-      t.recurrence_type
+        t.is_recurring,
+        t.recurrence_days,
+        t.recurrence_type
 
     FROM task_instances ti
-
     INNER JOIN tasks t
         ON ti.task_id = t.id
-
-    LEFT JOIN goals g
-        ON t.goal_id = g.id
-
     WHERE ti.instance_date = '${date}'
-
     ORDER BY
-        CASE
-            WHEN ti.status = 'done' THEN t.completed_at
-            ELSE t.priority
-        END DESC; 
-`);
+      CASE
+        WHEN ti.status = 'done' THEN t.completed_at
+        ELSE t.priority
+      END DESC
+  `);
 }
 /**
  * Updates an existing task in the database.
@@ -131,7 +124,8 @@ export async function createTask() {
       is_recurring,
       recurrence_type,
       recurrence_days,
-      goal_id
+      goal_id,
+      domain
     )
     VALUES (
       'Add Title',
@@ -142,7 +136,8 @@ export async function createTask() {
       0,
       null,
       null,
-      1
+      1,
+      'personal'
     );
     `,
   );

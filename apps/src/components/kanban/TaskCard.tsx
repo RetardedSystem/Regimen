@@ -8,7 +8,7 @@ import {
 import Colors from "@/constants/Colors";
 import Icons from "@/constants/Icons";
 import { useState } from "react";
-import { completeTasks } from "@/databases/completeTask";
+import { completeTask } from "@/databases/taskQuery";
 import TaskWindow from "./TaskWindow";
 import { formatDateTime } from "@/constants/utils";
 
@@ -51,7 +51,7 @@ type Props = {
 
 export default function TaskCard({ task, reloadBoard }: Props) {
   async function handleComplete() {
-    await completeTasks(task.id);
+    await completeTask(task.id, task.task_id);
     reloadBoard();
   }
   const isCompleted = task.status === "done";
