@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import FormField from "./formField";
 import { getGoals } from "@/databases/getGoals";
 import { formatSqlDate } from "@/constants/utils";
-import { updateTask } from "@/databases/getTasks";
+import { updateTask } from "@/databases/taskQuery";
 
 type Task = {
   id: number;
@@ -86,7 +86,7 @@ export default function TaskWindow({ task, onClose, reloadBoard }: Props) {
     try {
       const is_recurring = recurrenceType ? 1 : 0;
       const updatedTask = {
-        id: task.id,
+        task_id: task.task_id,
         title: title,
         description: description,
         start_date: formatSqlDate(startDate),
@@ -97,7 +97,6 @@ export default function TaskWindow({ task, onClose, reloadBoard }: Props) {
         recurrence_type: recurrenceType,
         recurrence_days: recurrenceDays.join(","),
       };
-
       await updateTask(updatedTask);
       reloadBoard();
       onClose();

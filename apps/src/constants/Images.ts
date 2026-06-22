@@ -1,3 +1,7 @@
+import AngreyIcon from "@/assets/MoodStatus/Angry.svg";
+import HappyIcon from "@/assets/MoodStatus/Happy.svg";
+import NeutralIcon from "@/assets/MoodStatus/Neutral.svg";
+
 const background = {
   homeBg: require("@/assets/Backgrounds/Home_bg.png"),
   goalsBg: require("@/assets/Backgrounds/Goals_bg.png"),
@@ -13,5 +17,11 @@ const avatarImage = {
   owl: require("@/assets/Avatars/Owl.png"),
   bee: require("@/assets/Avatars/Bee.png"),
 };
-export { avatarImage, background };
+
+const MoodStatus = {
+  Happy: HappyIcon,
+  Neutral: NeutralIcon,
+  Angry: AngreyIcon,
+};
+export { avatarImage, background, MoodStatus };
 
