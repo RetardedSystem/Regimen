@@ -27,6 +27,7 @@ import TitleIcon from "@/assets/Icons/Title.svg";
 import TrashcanIcon from "@/assets/Icons/Trashcan.svg";
 import LoopIcon from "@/assets/Icons/Loop.svg";
 import AdditionIcon from "@/assets/Icons/Addition.svg";
+import PencilIcon from "@/assets/Icons/Pencil.svg";
 
 const Icons = {
   // Screen Icons
@@ -62,6 +63,7 @@ const Icons = {
   trashcan: TrashcanIcon,
   loop: LoopIcon,
   addition: AdditionIcon,
+  pencil: PencilIcon,
 };
 
 export default Icons;
