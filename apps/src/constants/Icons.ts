@@ -26,6 +26,11 @@ import SirenIcon from "@/assets/Icons/Siren.svg";
 import TitleIcon from "@/assets/Icons/Title.svg";
 import TrashcanIcon from "@/assets/Icons/Trashcan.svg";
 import LoopIcon from "@/assets/Icons/Loop.svg";
+<<<<<<< Updated upstream
+=======
+import AdditionIcon from "@/assets/Icons/Addition.svg";
+import PencilIcon from "@/assets/Icons/Pencil.svg";
+>>>>>>> Stashed changes
 
 const Icons = {
   // Screen Icons
@@ -60,6 +65,11 @@ const Icons = {
   siren: SirenIcon,
   trashcan: TrashcanIcon,
   loop: LoopIcon,
+<<<<<<< Updated upstream
+=======
+  addition: AdditionIcon,
+  pencil: PencilIcon,
+>>>>>>> Stashed changes
 };
 
 export default Icons;

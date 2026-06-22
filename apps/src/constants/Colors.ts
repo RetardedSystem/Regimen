@@ -14,6 +14,7 @@ const Colors = {
 
   black: "#313337",
   grey: "#9A9A9A",
+  light_grey: "#ECEFF1",
   white: "#FAFDF8",
   purple: "#CAA1F0",
 };
