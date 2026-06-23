@@ -24,7 +24,7 @@ export async function getTasksByDate(date: string) {
         t.completed_at,
 
         t.goal_id,
-        t.domain,
+        g.domain,
         t.priority,
 
         t.is_recurring,
@@ -34,6 +34,8 @@ export async function getTasksByDate(date: string) {
     FROM task_instances ti
     INNER JOIN tasks t
         ON ti.task_id = t.id
+    LEFT JOIN goals g
+        ON t.goal_id = g.id
     WHERE ti.instance_date = '${date}'
     ORDER BY
       CASE
@@ -101,7 +103,7 @@ export async function completeTask(instanceId: number, taskId: number) {
       [instanceId],
     );
 
-    // Update the task summary
+    // Update the task status
     await db.runAsync(
       `UPDATE tasks
        SET status = 'done',
@@ -124,8 +126,7 @@ export async function createTask() {
       is_recurring,
       recurrence_type,
       recurrence_days,
-      goal_id,
-      domain
+      goal_id
     )
     VALUES (
       'Add Title',
@@ -136,8 +137,7 @@ export async function createTask() {
       0,
       null,
       null,
-      1,
-      'personal'
+      1
     );
     `,
   );

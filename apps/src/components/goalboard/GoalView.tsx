@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import Colors from "@/constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 import Icons from "@/constants/Icons";
@@ -52,9 +52,12 @@ export default function GoalView({ goal }: { goal: goal }) {
         <Icons.pencil />
       </View>
       {/* Subgoals */}
-      {!collapsed && (
-        <View style={styles.test}>
-          <GoalItem key={goal.id} goal={goal} />
+      {!collapsed && goal.children.length > 0 && (
+        <View style={styles.subGoalContainer}>
+          <View style={styles.line}></View>
+          {goal.children.map((child) => (
+            <GoalItem key={child.id} goal={child} />
+          ))}
         </View>
       )}
       <LinearGradient
@@ -108,12 +111,25 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     textTransform: "uppercase",
   },
-  test: {
+  subGoalContainer: {
     width: "90%",
-    height: 300,
-    backgroundColor: Colors.blue,
+    minHeight: 300,
     borderRadius: 15,
     marginTop: 10,
+    marginBottom: 30,
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+    gap: 0,
+  },
+  line: {
+    position: "absolute",
+    left: 15,
+    bottom: 0,
+    width: 4,
+    height: "100%",
+    top: -20,
+    backgroundColor: Colors.blue,
+    borderRadius: 2,
   },
   progressContainer: {
     position: "absolute",
