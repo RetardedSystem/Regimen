@@ -2,7 +2,7 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import DateRange from "./DateRange";
 import PeriodSelector from "./PeriodSelector";
-import WeekStatusTracker from "./WeeklyStatus";
+import WeeklyPager from "./WeeklyPager";
 
 type CalendarProps = {
   currentDate: {
@@ -12,16 +12,23 @@ type CalendarProps = {
   };
 };
 
-export default function Journey({ currentDate }: CalendarProps) {
+export default function Journey() {
   const [period, setPeriod] = useState<"weekly" | "monthly">("weekly");
+
+  const [currentDate, setCurrentDate] = useState(new Date());
   return (
     <View style={styles.container}>
       <View style={styles.Timeline}>
         <PeriodSelector period={period} setPeriod={setPeriod} />
-        <DateRange />
+        <DateRange period={period} currentDate={currentDate} />
       </View>
       <View>
-        {period == "weekly" && <WeekStatusTracker />}
+        {period == "weekly" && (
+          <WeeklyPager
+            currentDate={currentDate}
+            setCurrentDate={setCurrentDate}
+          />
+        )}
         {period == "monthly"}
       </View>
     </View>
@@ -38,7 +45,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 20,
   },
 
   Date: {
