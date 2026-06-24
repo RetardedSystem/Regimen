@@ -1,7 +1,8 @@
-import Icons from "@/constants/Icons";
 import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import DateRange from "./DateRange";
 import PeriodSelector from "./PeriodSelector";
+import WeekStatusTracker from "./WeeklyStatus";
 
 type CalendarProps = {
   currentDate: {
@@ -12,62 +13,39 @@ type CalendarProps = {
 };
 
 export default function Journey({ currentDate }: CalendarProps) {
-  const [period, setPeriod] = useState<"monthly" | "weekly" | "yearly">(
-    "weekly",
-  );
+  const [period, setPeriod] = useState<"weekly" | "monthly">("weekly");
   return (
     <View style={styles.container}>
       <View style={styles.Timeline}>
-        <Icons.calendar width={28} height={15}></Icons.calendar>
-        <Text style={styles.Date}>
-          {currentDate.startOfWeek.getDate()} -{currentDate.endOfWeek.getDate()}{" "}
-          {""}
-          {currentDate.endOfWeek.toLocaleString("en-GB", {
-            month: "short",
-            year: "numeric",
-          })}
-        </Text>
-      </View>
-      <View style={styles.Calendar}>
-        {" "}
         <PeriodSelector period={period} setPeriod={setPeriod} />
+        <DateRange />
       </View>
-      <View style={styles.Insight}></View>
+      <View>
+        {period == "weekly" && <WeekStatusTracker />}
+        {period == "monthly"}
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    height: "22%",
-    width: "100%",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  Date: {
-    width: 110,
-    height: 20,
-    fontSize: 13,
-    paddingBottom:"1.5%",
-    fontFamily: "Nunito-Regular",
-
+    paddingHorizontal: 20,
+    marginTop: 10,
   },
 
   Timeline: {
     flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 20,
   },
 
-  frameIcon: {
-    height: "72.22%",
-    width: "10.24%",
-  },
-  Calendar: {
-    height: "20%",
-    width: "50%",
-  },
-  Insight: {
-    backgroundColor: "yellow",
-    height: "60%",
-    width: "100%",
+  Date: {
+    width: 110,
+    height: 20,
+    fontSize: 13,
+    paddingBottom: "1.5%",
+    fontFamily: "Nunito-Regular",
   },
 });
