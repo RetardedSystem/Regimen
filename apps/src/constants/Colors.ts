@@ -3,12 +3,15 @@ const Colors = {
 
   red: "#F3657F",
   light_red: "#FDEDED",
+  dark_red: "#AC2650",
 
   blue: "#5BA9EB",
   light_blue: "#EDF5FD",
+  dark_blue: "#225086",
 
   yellow: "#F5C36D",
   light_yellow: "#FDF9ED",
+  dark_yellow: "#C18940",
 
   icon_active: "#FDEDED",
 

@@ -194,9 +194,9 @@ export async function initDB() {
 
     -- Higher Algebra
     (9, 2, 'Complex Numbers', 'education',
-     '2026-06-20', NULL, '2026-07-01', 'todo'),
+     '2026-06-20', '2026-06-23', '2026-07-01', 'todo'),
     (100,9, 'Roots of Unity', 'education',
-     '2026-06-25', NULL, '2026-07-05', 'todo'),
+     '2026-06-25', '2026-06-24', '2026-07-05', 'todo'),
     (101,9, 'De Moivre Theorem', 'education',
      '2026-07-01', NULL, '2026-07-10', 'todo'),
 

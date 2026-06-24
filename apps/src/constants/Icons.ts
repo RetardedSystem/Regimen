@@ -33,6 +33,10 @@ import CheckboxIcon from "@/assets/Icons/Checkbox.svg";
 import CheckboxChildIcon from "@/assets/Icons/Checkbox_Child.svg";
 import ExpandedCheckboxIcon from "@/assets/Icons/Expanded.svg";
 
+import goalHasChild from "@/assets/Icons/goalHasChild.svg";
+import goalNoChild from "@/assets/Icons/goalNoChild.svg";
+import goalExpanded from "@/assets/Icons/goalExpanded";
+
 const Icons = {
   // Screen Icons
   home: HomeIcon,
@@ -72,6 +76,9 @@ const Icons = {
   checkbox: CheckboxIcon,
   checkboxChild: CheckboxChildIcon,
   expandedCheckbox: ExpandedCheckboxIcon,
+  goalHasChild: goalHasChild,
+  goalNoChild: goalNoChild,
+  goalExpanded: goalExpanded,
 };
 
 export default Icons;
