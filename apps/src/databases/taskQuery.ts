@@ -162,3 +162,13 @@ export async function createTask() {
   console.log("Task Created");
   return taskId;
 }
+
+export async function deleteTask(taskId: number) {
+  await db.withTransactionAsync(async () => {
+    // Delete the task instances first
+    await db.runAsync(`DELETE FROM task_instances WHERE task_id = ?`, [taskId]);
+
+    // Then delete the task itself
+    await db.runAsync(`DELETE FROM tasks WHERE id = ?`, [taskId]);
+  });
+}

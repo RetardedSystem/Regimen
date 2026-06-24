@@ -12,7 +12,7 @@ export async function initDB() {
         parent_goal_id INTEGER,
 
         title TEXT NOT NULL,
-
+        description TEXT,
         domain TEXT NOT NULL CHECK (
             domain IN (
                 'personal',
@@ -24,15 +24,13 @@ export async function initDB() {
                 'social'
             )
         ),
-
-        start_time DATETIME,
+       start_date DATE,
         completed_at DATETIME,
         deadline DATETIME,
 
-        status TEXT NOT NULL DEFAULT 'todo'
+        status TEXT NOT NULL DEFAULT 'in_progress'
         CHECK (
             status IN (
-                'todo',
                 'in_progress',
                 'done'
             )
@@ -149,208 +147,114 @@ export async function initDB() {
     unlock_xp INTEGER NOT NULL DEFAULT 0
   );
   `);
-
-  // Test Inserts for Goals Table Hierachy
+  // Test Inserts for Goals Table Hierarchy
   await db.execAsync(`
     DELETE FROM goals;
 
     INSERT INTO goals (
-        id,
-        parent_goal_id,
-        title,
-        domain,
-        start_time,
-        completed_at,
-        deadline,
-        status
+      id,
+      parent_goal_id,
+      title,
+      domain,
+      start_date,
+      completed_at,
+      deadline
     )
     VALUES
+      -- Root Goal
+      (1, NULL, 'IIT JAM Mathematics', 'education', '2026-06-20', NULL, '2027-01-15'),
 
-    -- Root Goal
-    (1, NULL, 'IIT JAM Mathematics', 'education',
-     '2026-06-20', NULL, '2027-01-15', 'todo'),
+      -- Main Subjects
+      (2, 1, 'Higher Algebra', 'education', '2026-06-20', NULL, '2026-08-01'),
+      (3, 1, 'Calculus', 'education', '2026-06-20', NULL, '2026-10-01'),
+      (4, 1, 'Real Analysis', 'education', '2026-08-01', NULL, '2026-11-01'),
+      (5, 1, 'Linear Algebra', 'education', '2026-08-01', NULL, '2026-11-15'),
+      (6, 1, 'Differential Equations', 'education', '2026-11-01', NULL, '2026-12-01'),
+      (7, 1, 'Abstract Algebra', 'education', '2026-10-15', NULL, '2026-12-15'),
+      (8, 1, 'IIT JAM Practice', 'education', '2026-11-15', NULL, '2027-01-15'),
 
-    -- Main Subjects
-    (2, 1, 'Higher Algebra', 'education',
-     '2026-06-20', NULL, '2026-08-01', 'todo'),
+      -- Higher Algebra
+      (9, 2, 'Complex Numbers', 'education', '2026-06-20', '2026-06-23', '2026-07-01'),
+      (100, 9, 'Roots of Unity', 'education', '2026-06-25', '2026-06-24', '2026-07-05'),
+      (101, 9, 'De Moivre Theorem', 'education', '2026-07-01', NULL, '2026-07-10'),
+      (10, 2, 'Theory of Equations', 'education', '2026-06-25', NULL, '2026-07-10'),
+      (11, 2, 'Binomial Theorem', 'education', '2026-07-01', NULL, '2026-07-15'),
+      (12, 2, 'Multinomial Theorem', 'education', '2026-07-10', NULL, '2026-07-20'),
+      (13, 2, 'Inequalities', 'education', '2026-07-15', NULL, '2026-08-01'),
 
-    (3, 1, 'Calculus', 'education',
-     '2026-06-20', NULL, '2026-10-01', 'todo'),
+      -- Calculus
+      (14, 3, 'Functions', 'education', '2026-06-20', NULL, '2026-06-30'),
+      (15, 3, 'Limits', 'education', '2026-06-30', NULL, '2026-07-15'),
+      (16, 3, 'Continuity', 'education', '2026-07-15', NULL, '2026-07-25'),
+      (17, 3, 'Differentiation', 'education', '2026-07-25', NULL, '2026-08-20'),
+      (18, 3, 'Applications of Derivatives', 'education', '2026-08-20', NULL, '2026-09-01'),
+      (19, 3, 'Integration', 'education', '2026-09-01', NULL, '2026-09-20'),
+      (20, 3, 'Techniques of Integration', 'education', '2026-09-10', NULL, '2026-09-30'),
+      (21, 3, 'Sequences and Series', 'education', '2026-09-15', NULL, '2026-10-01'),
+      (22, 3, 'Multivariable Calculus', 'education', '2026-09-20', NULL, '2026-10-10'),
 
-    (4, 1, 'Real Analysis', 'education',
-     '2026-08-01', NULL, '2026-11-01', 'todo'),
+      -- Real Analysis
+      (23, 4, 'Logic and Proofs', 'education', '2026-08-01', NULL, '2026-08-15'),
+      (24, 4, 'Real Numbers', 'education', '2026-08-10', NULL, '2026-08-25'),
+      (25, 4, 'Sequences', 'education', '2026-08-20', NULL, '2026-09-15'),
+      (26, 4, 'Limits', 'education', '2026-09-01', NULL, '2026-09-20'),
+      (27, 4, 'Continuity', 'education', '2026-09-15', NULL, '2026-10-01'),
+      (28, 4, 'Differentiation', 'education', '2026-10-01', NULL, '2026-10-20'),
+      (29, 4, 'Riemann Integration', 'education', '2026-10-15', NULL, '2026-11-01'),
 
-    (5, 1, 'Linear Algebra', 'education',
-     '2026-08-01', NULL, '2026-11-15', 'todo'),
+      -- Linear Algebra
+      (30, 5, 'Vector Spaces', 'education', '2026-08-01', NULL, '2026-08-20'),
+      (31, 5, 'Subspaces', 'education', '2026-08-15', NULL, '2026-08-30'),
+      (32, 5, 'Linear Maps', 'education', '2026-08-25', NULL, '2026-09-15'),
+      (33, 5, 'Matrices', 'education', '2026-09-10', NULL, '2026-09-25'),
+      (34, 5, 'Eigenvalues', 'education', '2026-09-20', NULL, '2026-10-10'),
+      (35, 5, 'Eigenvectors', 'education', '2026-09-20', NULL, '2026-10-10'),
+      (36, 5, 'Diagonalization', 'education', '2026-10-10', NULL, '2026-10-30'),
+      (37, 5, 'Inner Product Spaces', 'education', '2026-10-20', NULL, '2026-11-15'),
 
-    (6, 1, 'Differential Equations', 'education',
-     '2026-11-01', NULL, '2026-12-01', 'todo'),
+      -- Differential Equations
+      (38, 6, 'First Order Differential Equations', 'education', '2026-11-01', NULL, '2026-11-15'),
+      (39, 6, 'Second Order Differential Equations', 'education', '2026-11-10', NULL, '2026-11-25'),
+      (40, 6, 'Applications of Differential Equations', 'education', '2026-11-20', NULL, '2026-12-01'),
 
-    (7, 1, 'Abstract Algebra', 'education',
-     '2026-10-15', NULL, '2026-12-15', 'todo'),
+      -- Abstract Algebra
+      (41, 7, 'Groups', 'education', '2026-10-15', NULL, '2026-11-01'),
+      (42, 7, 'Cyclic Groups', 'education', '2026-11-01', NULL, '2026-11-15'),
+      (43, 7, 'Permutation Groups', 'education', '2026-11-10', NULL, '2026-11-25'),
+      (44, 7, 'Homomorphisms', 'education', '2026-11-20', NULL, '2026-12-05'),
+      (45, 7, 'Cosets', 'education', '2026-12-01', NULL, '2026-12-15'),
 
-    (8, 1, 'IIT JAM Practice', 'education',
-     '2026-11-15', NULL, '2027-01-15', 'todo'),
-
-    -- Higher Algebra
-    (9, 2, 'Complex Numbers', 'education',
-     '2026-06-20', NULL, '2026-07-01', 'todo'),
-    (100,9, 'Roots of Unity', 'education',
-     '2026-06-25', NULL, '2026-07-05', 'todo'),
-    (101,9, 'De Moivre Theorem', 'education',
-     '2026-07-01', NULL, '2026-07-10', 'todo'),
-
-    (10, 2, 'Theory of Equations', 'education',
-     '2026-06-25', NULL, '2026-07-10', 'todo'),
-
-    (11, 2, 'Binomial Theorem', 'education',
-     '2026-07-01', NULL, '2026-07-15', 'todo'),
-
-    (12, 2, 'Multinomial Theorem', 'education',
-     '2026-07-10', NULL, '2026-07-20', 'todo'),
-
-    (13, 2, 'Inequalities', 'education',
-     '2026-07-15', NULL, '2026-08-01', 'todo'),
-
-    -- Calculus
-    (14, 3, 'Functions', 'education',
-     '2026-06-20', NULL, '2026-06-30', 'todo'),
-
-    (15, 3, 'Limits', 'education',
-     '2026-06-30', NULL, '2026-07-15', 'todo'),
-
-    (16, 3, 'Continuity', 'education',
-     '2026-07-15', NULL, '2026-07-25', 'todo'),
-
-    (17, 3, 'Differentiation', 'education',
-     '2026-07-25', NULL, '2026-08-20', 'todo'),
-
-    (18, 3, 'Applications of Derivatives', 'education',
-     '2026-08-20', NULL, '2026-09-01', 'todo'),
-
-    (19, 3, 'Integration', 'education',
-     '2026-09-01', NULL, '2026-09-20', 'todo'),
-
-    (20, 3, 'Techniques of Integration', 'education',
-     '2026-09-10', NULL, '2026-09-30', 'todo'),
-
-    (21, 3, 'Sequences and Series', 'education',
-     '2026-09-15', NULL, '2026-10-01', 'todo'),
-
-    (22, 3, 'Multivariable Calculus', 'education',
-     '2026-09-20', NULL, '2026-10-10', 'todo'),
-
-    -- Real Analysis
-    (23, 4, 'Logic and Proofs', 'education',
-     '2026-08-01', NULL, '2026-08-15', 'todo'),
-
-    (24, 4, 'Real Numbers', 'education',
-     '2026-08-10', NULL, '2026-08-25', 'todo'),
-
-    (25, 4, 'Sequences', 'education',
-     '2026-08-20', NULL, '2026-09-15', 'todo'),
-
-    (26, 4, 'Limits', 'education',
-     '2026-09-01', NULL, '2026-09-20', 'todo'),
-
-    (27, 4, 'Continuity', 'education',
-     '2026-09-15', NULL, '2026-10-01', 'todo'),
-
-    (28, 4, 'Differentiation', 'education',
-     '2026-10-01', NULL, '2026-10-20', 'todo'),
-
-    (29, 4, 'Riemann Integration', 'education',
-     '2026-10-15', NULL, '2026-11-01', 'todo'),
-
-    -- Linear Algebra
-    (30, 5, 'Vector Spaces', 'education',
-     '2026-08-01', NULL, '2026-08-20', 'todo'),
-
-    (31, 5, 'Subspaces', 'education',
-     '2026-08-15', NULL, '2026-08-30', 'todo'),
-
-    (32, 5, 'Linear Maps', 'education',
-     '2026-08-25', NULL, '2026-09-15', 'todo'),
-
-    (33, 5, 'Matrices', 'education',
-     '2026-09-10', NULL, '2026-09-25', 'todo'),
-
-    (34, 5, 'Eigenvalues', 'education',
-     '2026-09-20', NULL, '2026-10-10', 'todo'),
-
-    (35, 5, 'Eigenvectors', 'education',
-     '2026-09-20', NULL, '2026-10-10', 'todo'),
-
-    (36, 5, 'Diagonalization', 'education',
-     '2026-10-10', NULL, '2026-10-30', 'todo'),
-
-    (37, 5, 'Inner Product Spaces', 'education',
-     '2026-10-20', NULL, '2026-11-15', 'todo'),
-
-    -- Differential Equations
-    (38, 6, 'First Order Differential Equations', 'education',
-     '2026-11-01', NULL, '2026-11-15', 'todo'),
-
-    (39, 6, 'Second Order Differential Equations', 'education',
-     '2026-11-10', NULL, '2026-11-25', 'todo'),
-
-    (40, 6, 'Applications of Differential Equations', 'education',
-     '2026-11-20', NULL, '2026-12-01', 'todo'),
-
-    -- Abstract Algebra
-    (41, 7, 'Groups', 'education',
-     '2026-10-15', NULL, '2026-11-01', 'todo'),
-
-    (42, 7, 'Cyclic Groups', 'education',
-     '2026-11-01', NULL, '2026-11-15', 'todo'),
-
-    (43, 7, 'Permutation Groups', 'education',
-     '2026-11-10', NULL, '2026-11-25', 'todo'),
-
-    (44, 7, 'Homomorphisms', 'education',
-     '2026-11-20', NULL, '2026-12-05', 'todo'),
-
-    (45, 7, 'Cosets', 'education',
-     '2026-12-01', NULL, '2026-12-15', 'todo'),
-
-    -- Practice
-    (46, 8, 'Previous Year Papers', 'education',
-     '2026-11-15', NULL, '2027-01-15', 'todo'),
-
-    (47, 8, 'Mock Tests', 'education',
-     '2026-12-01', NULL, '2027-01-15', 'todo'),
-
-    (48, 8, 'Revision Notes', 'education',
-     '2026-12-01', NULL, '2027-01-10', 'todo'),
-
-    (49, 8, 'Formula Sheets', 'education',
-     '2026-12-01', NULL, '2027-01-05', 'todo');
-`);
+      -- Practice
+      (46, 8, 'Previous Year Papers', 'education', '2026-11-15', NULL, '2027-01-15'),
+      (47, 8, 'Mock Tests', 'education', '2026-12-01', NULL, '2027-01-15'),
+      (48, 8, 'Revision Notes', 'education', '2026-12-01', NULL, '2027-01-10'),
+      (49, 8, 'Formula Sheets', 'education', '2026-12-01', NULL, '2027-01-05');
+  `);
 
   // Test Inserts
   await db.execAsync(`
-      INSERT INTO goals(title, domain, start_time, completed_at, deadline, status)
+      INSERT INTO goals(title, domain, start_date, completed_at, deadline, status)
   VALUES
-    ('Default Goal', 'personal', NULL, NULL, NULL, 'todo'),
+    ('Default Goal', 'personal', NULL, NULL, NULL, 'in_progress'),
     ('Morning Workout', 'health', '2026-05-01 06:00:00', '2026-05-01 07:00:00', '2026-06-01 00:00:00', 'in_progress'),
 
-    ('Learn SQL', 'education', '2026-05-02 18:00:00', '2026-05-02 20:00:00', '2026-07-01 00:00:00', 'todo'),
+    ('Learn SQL', 'education', '2026-05-02 18:00:00', '2026-05-02 20:00:00', '2026-07-01 00:00:00', 'in_progress'),
 
     ('Save Emergency Fund', 'finance', '2026-05-03 09:00:00', '2026-05-03 10:00:00', '2026-12-31 00:00:00', 'in_progress'),
 
-    ('Build Portfolio Website', 'career', '2026-05-04 10:00:00', '2026-05-04 13:00:00', '2026-08-01 00:00:00', 'todo'),
+    ('Build Portfolio Website', 'career', '2026-05-04 10:00:00', '2026-05-04 13:00:00', '2026-08-01 00:00:00', 'in_progress'),
 
     ('Read 12 Books', 'personal', '2026-05-05 20:00:00', '2026-05-05 21:00:00', '2026-12-31 00:00:00', 'in_progress'),
 
     ('Meditation Routine', 'health', '2026-05-06 07:00:00', '2026-05-06 07:30:00', '2026-09-01 00:00:00', 'done'),
 
-    ('Travel with Friends', 'social', '2026-05-07 08:00:00', '2026-05-07 09:00:00', '2026-11-15 00:00:00', 'todo'),
+    ('Travel with Friends', 'social', '2026-05-07 08:00:00', '2026-05-07 09:00:00', '2026-11-15 00:00:00', 'in_progress'),
 
     ('Movie Marathon', 'entertainment', '2026-05-08 19:00:00', '2026-05-08 23:00:00', '2026-06-15 00:00:00', 'done'),
 
     ('Online Certification', 'education', '2026-05-09 15:00:00', '2026-05-09 17:00:00', '2026-10-01 00:00:00', 'in_progress'),
 
-    ('Networking Events', 'career', '2026-05-10 18:00:00', '2026-05-10 20:00:00', '2026-09-30 00:00:00', 'todo');
+    ('Networking Events', 'career', '2026-05-10 18:00:00', '2026-05-10 20:00:00', '2026-09-30 00:00:00', 'in_progress');
   `);
 
   await db.execAsync(`

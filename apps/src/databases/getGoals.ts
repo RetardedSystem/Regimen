@@ -21,7 +21,7 @@ export async function getGoals() {
 
 export async function getGoalsTree() {
   const goals = await db.getAllAsync(`
-    SELECT id,title, parent_goal_id,domain,status,start_time,completed_at,deadline
+    SELECT id,title, description, parent_goal_id,domain,status,start_date,completed_at,deadline,status
     FROM goals
     ORDER BY id
   `);

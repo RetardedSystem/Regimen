@@ -2,10 +2,10 @@ import { Text, Modal, View, StyleSheet } from "react-native";
 import Colors from "@/constants/Colors";
 import Icons from "@/constants/Icons";
 import { useState, useEffect } from "react";
-import FormField from "./formField";
+import FormField from "@/components/formField";
 import { getGoals } from "@/databases/getGoals";
 import { formatSqlDate } from "@/constants/utils";
-import { updateTask } from "@/databases/taskQuery";
+import { updateTask, deleteTask } from "@/databases/taskQuery";
 
 type Task = {
   id: number;
@@ -104,6 +104,18 @@ export default function TaskWindow({ task, onClose, reloadBoard }: Props) {
       console.error(error);
     }
   };
+
+  const handleDelete = async () => {
+    try {
+      // Call the deleteTask function here
+      await deleteTask(task.task_id);
+      reloadBoard();
+      onClose();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // This for the Goal Dropdown.
   const [dropdownGoals, setDropdownGoals] = useState([]);
 
@@ -239,6 +251,7 @@ export default function TaskWindow({ task, onClose, reloadBoard }: Props) {
             style={[styles.tick, { right: 15 }]}
             fill={Colors.light_red}
             color={Colors.red}
+            onPress={handleDelete}
           />
         </View>
       </View>

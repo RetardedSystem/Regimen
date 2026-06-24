@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import Colors from "@/constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 import Icons from "@/constants/Icons";
@@ -18,15 +18,15 @@ type goal = {
 };
 
 const colorList = [
-  { main: Colors.yellow, light: Colors.light_yellow },
-  { main: Colors.blue, light: Colors.light_blue },
-  { main: Colors.red, light: Colors.light_red },
+  { main: Colors.yellow, light: Colors.light_yellow, dark: Colors.dark_yellow },
+  { main: Colors.red, light: Colors.light_red, dark: Colors.dark_red },
+  { main: Colors.blue, light: Colors.light_blue, dark: Colors.dark_blue },
 ];
 
 export default function GoalView({ goal }: { goal: goal }) {
   const Category_Icon = Icons[goal.domain];
   const color = colorList[goal.id % colorList.length];
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
     <LinearGradient
@@ -54,12 +54,14 @@ export default function GoalView({ goal }: { goal: goal }) {
       {/* Subgoals */}
       {!collapsed && goal.children.length > 0 && (
         <View style={styles.subGoalContainer}>
-          <View style={styles.line}></View>
+          <View style={[styles.line, { backgroundColor: color.main }]}></View>
           {goal.children.map((child) => (
-            <GoalItem key={child.id} goal={child} />
+            <GoalItem key={child.id} goal={child} color={color} />
           ))}
         </View>
       )}
+
+      {/*Progress Bar*/}
       <LinearGradient
         colors={[color.main, Colors.white]}
         style={styles.progressContainer}
@@ -128,7 +130,6 @@ const styles = StyleSheet.create({
     width: 4,
     height: "100%",
     top: -20,
-    backgroundColor: Colors.blue,
     borderRadius: 2,
   },
   progressContainer: {
