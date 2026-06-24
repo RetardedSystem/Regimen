@@ -1,8 +1,17 @@
 // The logics for Date should be done.
-import { View, Text, ViewStyle, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  ViewStyle,
+  StyleSheet,
+  ScrollView,
+  Pressable,
+} from "react-native";
 import Colors from "@/constants/Colors";
 import Filter from "@/components/Filter";
 import TaskCard from "@/components/kanban/TaskCard";
+import Icons from "@/constants/Icons";
+import { createTask } from "@/databases/taskQuery";
 
 type Task = {
   id: number;
@@ -30,6 +39,13 @@ type Prop = {
 
 export default function KanbanColumn(props: Prop) {
   const { title, container, header } = columnConfig[props.title];
+
+  const handleaddTask = async () => {
+    await createTask();
+
+    props.reloadBoard();
+  };
+
   return (
     <View style={container}>
       <View style={header}>
@@ -48,7 +64,14 @@ export default function KanbanColumn(props: Prop) {
         {props.tasks.map((task) => (
           <TaskCard key={task.id} task={task} reloadBoard={props.reloadBoard} />
         ))}
+        {/* Empty view so it scroll till the top*/}
+        <View style={{ height: 150 }} />
       </ScrollView>
+      {props.title === "todo" && (
+        <Pressable style={styles.newTask}>
+          <Icons.addition onPress={handleaddTask} />
+        </Pressable>
+      )}
     </View>
   );
 }
@@ -114,8 +137,6 @@ const styles = StyleSheet.create({
   },
 
   // Headers
-
-  // Headers
   todo_header: {
     ...header,
     backgroundColor: Colors.red,
@@ -158,6 +179,16 @@ const styles = StyleSheet.create({
     top: 44,
     width: "100%",
     height: "85%",
+  },
+  newTask: {
+    position: "absolute",
+    width: "90%",
+    height: 50,
+    bottom: 10,
+    borderRadius: 10,
+    backgroundColor: Colors.red,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
