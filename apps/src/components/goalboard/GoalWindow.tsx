@@ -1,32 +1,42 @@
-import { Text, Modal, View, StyleSheet } from "react-native";
+import {
+  Text,
+  Modal,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import Colors from "@/constants/Colors";
 import Icons from "@/constants/Icons";
 import { useState, useEffect } from "react";
 import FormField from "@/components/formField";
-import { getGoals } from "@/databases/getGoals";
 import { formatSqlDate } from "@/constants/utils";
 import { updateTask } from "@/databases/taskQuery";
+import SubGoalFields from "./subGoalFields";
 
-const weekDaysOptions = [
-  { label: "Mon", value: "1" },
-  { label: "Tue", value: "2" },
-  { label: "Wed", value: "3" },
-  { label: "Thu", value: "4" },
-  { label: "Fri", value: "5" },
-  { label: "Sat", value: "6" },
-  { label: "Sun", value: "7" },
+type Goal = {
+  id: number;
+  description: string | null;
+  title: string;
+  parent_goal_id: number | null;
+  domain: string;
+  status: string;
+  start_date: string;
+  completed_at: string | null;
+  deadline: string | null;
+  children: Goal[];
+};
+
+const domainOptions = [
+  { label: "Work", value: "work" },
+  { label: "Personal", value: "personal" },
+  { label: "Health", value: "health" },
+  { label: "Finance", value: "finance" },
+  { label: "Education", value: "education" },
+  { label: "Entertainment", value: "entertainment" },
+  { label: "Social", value: "social" },
 ];
 
-const monthDaysOptions = Array.from({ length: 31 }, (_, i) => ({
-  label: (i + 1).toString(),
-  value: (i + 1).toString(),
-}));
-
-type Props = {
-  goal: Goal;
-  reloadBoard: () => void;
-  onClose: () => void;
-};
 /**
  * This is the Task Window, it appears when you click on a Task Card, Icons
  * It allows you to edit the task details, Update the Database and Reloads the Board.
@@ -34,12 +44,15 @@ type Props = {
  * @param onClose A hook from Parent that Closes the Window
  * @param reloadBoard A hook that reload the board and reflect the changes.
  */
-export default function GoalWindow({ goal, onClose, reloadBoard }: Props) {
+export default function GoalWindow({ goal, onClose, reloadBoard }: any) {
   // Local States for the Task Details
   const [title, setTitle] = useState(goal.title);
+  const [description, setDescription] = useState(goal.description);
   const [startDate, setStartDate] = useState(new Date(goal.start_date));
   const [deadline, setDeadline] = useState(new Date(goal.deadline));
-  const [goalID, setGoalID] = useState(goal.goal_id);
+  const [domain, setDomain] = useState(goal.domain);
+
+  const [subGoals, setSubGoals] = useState<Goal[]>(goal.children || []);
 
   // A callback when Save Icon is Pressed,
   // It updates the Task in the Database
@@ -69,7 +82,13 @@ export default function GoalWindow({ goal, onClose, reloadBoard }: Props) {
       {/* The overlay that dims the background, make it so if someone press it the Window closes */}
       <View style={styles.overlay}>
         {/* The actual Window*/}
-        <View style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={{
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <Text style={styles.task_count}>Goal</Text>
 
           {/* Title */}
@@ -77,6 +96,13 @@ export default function GoalWindow({ goal, onClose, reloadBoard }: Props) {
             name="title"
             value={title}
             onChange={setTitle}
+            type="text"
+          />
+
+          <FormField
+            name="description"
+            value={description}
+            onChange={setDescription}
             type="text"
           />
 
@@ -100,10 +126,50 @@ export default function GoalWindow({ goal, onClose, reloadBoard }: Props) {
               />
             </View>
           </View>
+          {/* Domain */}
+          <FormField
+            name="domain"
+            value={domain}
+            data={domainOptions}
+            onChange={setDomain}
+            type="dropdown"
+          />
 
-          <View style={styles.ProgressTitle}></View>
+          <Text style={styles.sectionTitle}>Subgoals</Text>
 
-          <Text style={styles.sarcasm}>Sarcasm</Text>
+          {subGoals.map((subGoal, index) => (
+            <SubGoalFields
+              key={subGoal.id}
+              subGoal={subGoal}
+              index={index}
+              subGoals={subGoals}
+              setSubGoals={setSubGoals}
+            />
+          ))}
+
+          <TouchableOpacity
+            style={styles.addSubgoalButton}
+            onPress={() => {
+              setSubGoals([
+                ...subGoals,
+                {
+                  id: Date.now(), // temporary id
+                  title: "",
+                  description: "",
+                  parent_goal_id: goal.id,
+                  domain: goal.domain,
+                  status: "todo",
+                  start_date: new Date().toISOString(),
+                  completed_at: null,
+                  deadline: null,
+                  children: [],
+                },
+              ]);
+            }}
+          >
+            <Text>Add Subgoal</Text>
+          </TouchableOpacity>
+
           <Icons.bigTick
             style={styles.tick}
             color={Colors.blue}
@@ -114,7 +180,7 @@ export default function GoalWindow({ goal, onClose, reloadBoard }: Props) {
             fill={Colors.light_red}
             color={Colors.red}
           />
-        </View>
+        </ScrollView>
       </View>
     </Modal>
   );
@@ -130,7 +196,7 @@ const styles = StyleSheet.create({
 
   container: {
     width: "90%",
-    height: "50%",
+    minHeight: "60%",
     backgroundColor: "white",
     borderRadius: 10,
     shadowColor: Colors.black,
@@ -140,8 +206,6 @@ const styles = StyleSheet.create({
     elevation: 5,
     padding: 15,
     flexDirection: "column",
-    justifyContent: "space-between",
-    alignItems: "center",
   },
   task_count: {
     alignSelf: "flex-start",
@@ -158,22 +222,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
 
-  progressBar: {
-    minHeight: 30,
-    width: "90%",
-    backgroundColor: Colors.black,
-  },
-  ProgressTitle: {
-    minHeight: 15,
-    width: "90%",
-    backgroundColor: Colors.grey,
-  },
-  sarcasm: {
-    fontSize: 12,
-    fontFamily: "Gabarito",
-    fontWeight: 500,
-    color: Colors.red,
-  },
   tick: {
     position: "absolute",
     bottom: 10,

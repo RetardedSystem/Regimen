@@ -10,6 +10,7 @@ function GoalItem({ goal, level = 0, color: color }: any) {
   const hasChildren = goal.children?.length > 0;
   const [showWindow, setShowWindow] = useState(false);
 
+  console.log(goal.domain);
   return (
     <>
       <View

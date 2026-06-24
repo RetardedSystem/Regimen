@@ -4,8 +4,21 @@ import { useEffect, useState } from "react";
 import { getGoalsTree } from "@/databases/getGoals";
 import GoalView from "./GoalView";
 
+type Goal = {
+  id: number;
+  description: string | null;
+  title: string;
+  parent_goal_id: number | null;
+  domain: string;
+  status: string;
+  start_date: string;
+  completed_at: string | null;
+  deadline: string | null;
+  children: Goal[];
+};
+
 export default function GoalBoard() {
-  const [goals, setGoals] = useState<any[]>([]);
+  const [goals, setGoals] = useState<Goal[]>([]);
 
   async function loadGoals() {
     const goalsTree = await getGoalsTree();
