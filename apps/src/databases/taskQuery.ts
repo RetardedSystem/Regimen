@@ -103,7 +103,7 @@ export async function completeTask(instanceId: number, taskId: number) {
       [instanceId],
     );
 
-    // Update the task summary
+    // Update the task status
     await db.runAsync(
       `UPDATE tasks
        SET status = 'done',
@@ -126,8 +126,7 @@ export async function createTask() {
       is_recurring,
       recurrence_type,
       recurrence_days,
-      goal_id,
-      domain
+      goal_id
     )
     VALUES (
       'Add Title',
@@ -138,8 +137,7 @@ export async function createTask() {
       0,
       null,
       null,
-      1,
-      'personal'
+      1
     );
     `,
   );

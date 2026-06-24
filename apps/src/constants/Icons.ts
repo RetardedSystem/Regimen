@@ -29,6 +29,10 @@ import LoopIcon from "@/assets/Icons/Loop.svg";
 import AdditionIcon from "@/assets/Icons/Addition.svg";
 import PencilIcon from "@/assets/Icons/Pencil.svg";
 
+import CheckboxIcon from "@/assets/Icons/Checkbox.svg";
+import CheckboxChildIcon from "@/assets/Icons/Checkbox_Child.svg";
+import ExpandedCheckboxIcon from "@/assets/Icons/Expanded.svg";
+
 const Icons = {
   // Screen Icons
   home: HomeIcon,
@@ -64,6 +68,10 @@ const Icons = {
   loop: LoopIcon,
   addition: AdditionIcon,
   pencil: PencilIcon,
+
+  checkbox: CheckboxIcon,
+  checkboxChild: CheckboxChildIcon,
+  expandedCheckbox: ExpandedCheckboxIcon,
 };
 
 export default Icons;

@@ -195,6 +195,10 @@ export async function initDB() {
     -- Higher Algebra
     (9, 2, 'Complex Numbers', 'education',
      '2026-06-20', NULL, '2026-07-01', 'todo'),
+    (100,9, 'Roots of Unity', 'education',
+     '2026-06-25', NULL, '2026-07-05', 'todo'),
+    (101,9, 'De Moivre Theorem', 'education',
+     '2026-07-01', NULL, '2026-07-10', 'todo'),
 
     (10, 2, 'Theory of Equations', 'education',
      '2026-06-25', NULL, '2026-07-10', 'todo'),
@@ -369,7 +373,6 @@ INSERT INTO tasks(
       1,
       'Push-ups',
       'Do 50 push-ups',
-      'health',
       'done',
       '2026-05-01 06:00:00',
       '2026-05-01 07:00:00',
@@ -384,7 +387,6 @@ INSERT INTO tasks(
       2,
       'SQL Practice',
       'Complete JOIN exercises',
-      'education',
       'in_progress',
       '2026-05-02 18:00:00',
       '2026-06-10 20:00:00',
@@ -400,7 +402,6 @@ INSERT INTO tasks(
       3,
       'Deposit Savings',
       'Add money to savings account',
-      'finance',
       'todo',
       '2026-05-03 09:00:00',
       '2026-05-15 10:00:00',
@@ -416,7 +417,6 @@ INSERT INTO tasks(
       4,
       'Design Homepage',
       'Create landing page UI',
-      'career',
       'in_progress',
       '2026-05-04 10:00:00',
       '2026-05-20 18:00:00',
@@ -432,7 +432,6 @@ INSERT INTO tasks(
       5,
       'Read Atomic Habits',
       'Finish first 5 chapters',
-      'personal',
       'done',
       '2026-05-05 20:00:00',
       '2026-05-12 21:00:00',
@@ -448,7 +447,6 @@ INSERT INTO tasks(
       6,
       'Morning Meditation',
       'Meditate for 15 minutes',
-      'health',
       'done',
       '2026-05-06 07:00:00',
       '2026-05-06 07:30:00',
@@ -464,7 +462,6 @@ INSERT INTO tasks(
       7,
       'Book Hotel',
       'Reserve hotel rooms',
-      'social',
       'todo',
       '2026-05-07 08:00:00',
       '2026-08-01 12:00:00',
@@ -480,7 +477,6 @@ INSERT INTO tasks(
       8,
       'Watch Sci-Fi Movies',
       'Watch 3 classic sci-fi movies',
-      'entertainment',
       'todo',
       '2026-05-08 19:00:00',
       '2026-05-08 23:00:00',
@@ -496,7 +492,6 @@ INSERT INTO tasks(
       9,
       'Complete React Course',
       'Finish module 4',
-      'education',
       'missed',
       '2026-05-09 15:00:00',
       '2026-06-01 18:00:00',
@@ -512,7 +507,6 @@ INSERT INTO tasks(
       10,
       'Attend Tech Meetup',
       'Meet software professionals',
-      'career',
       'todo',
       '2026-05-10 18:00:00',
       '2026-06-15 20:00:00',
@@ -524,7 +518,6 @@ INSERT INTO tasks(
       10
     );
   `);
-
 
   await db.execAsync(`
     INSERT INTO task_instances(
