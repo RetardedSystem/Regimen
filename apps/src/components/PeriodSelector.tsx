@@ -7,8 +7,8 @@ type TabProps = {
 };
 
 type Props = {
-  period: "monthly" | "weekly" | "yearly";
-  setPeriod: (value: "monthly" | "weekly" | "yearly") => void;
+  period: "monthly" | "weekly";
+  setPeriod: (value: "monthly" | "weekly") => void;
 };
 
 function Tab({ label, active, onPress }: TabProps) {
@@ -28,21 +28,14 @@ export default function PeriodSelector({ period, setPeriod }: Props) {
   return (
     <View style={styles.container}>
       <Tab
-        label="Monthly"
-        active={period === "monthly"}
-        onPress={() => setPeriod("monthly")}
-      />
-
-      <Tab
         label="Weekly"
         active={period === "weekly"}
         onPress={() => setPeriod("weekly")}
       />
-
       <Tab
-        label="Yearly"
-        active={period === "yearly"}
-        onPress={() => setPeriod("yearly")}
+        label="Monthly"
+        active={period === "monthly"}
+        onPress={() => setPeriod("monthly")}
       />
     </View>
   );
@@ -52,7 +45,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "center",
-    gap: 16,
+    gap: 1,
   },
 
   tab: {

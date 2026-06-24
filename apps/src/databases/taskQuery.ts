@@ -34,7 +34,7 @@ export async function getTasksByDate(date: string) {
     FROM task_instances ti
     INNER JOIN tasks t
         ON ti.task_id = t.id
-    LEFT JOIN goals g
+    LEFT JOIN goals g 
         ON t.goal_id = g.id
     WHERE ti.instance_date = '${date}'
     ORDER BY
