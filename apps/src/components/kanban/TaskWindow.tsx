@@ -3,7 +3,7 @@ import Colors from "@/constants/Colors";
 import Icons from "@/constants/Icons";
 import { useState, useEffect } from "react";
 import FormField from "@/components/formField";
-import { getGoals } from "@/databases/getGoals";
+import { getGoals } from "@/databases/goalQuery";
 import { formatSqlDate } from "@/constants/utils";
 import { updateTask, deleteTask } from "@/databases/taskQuery";
 

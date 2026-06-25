@@ -1,8 +1,9 @@
-import { View, ScrollView, Text, StyleSheet } from "react-native";
+import { View, ScrollView, StyleSheet, Pressable } from "react-native";
 import Colors from "@/constants/Colors";
 import { useEffect, useState } from "react";
-import { getGoalsTree } from "@/databases/getGoals";
+import { getGoalsTree } from "@/databases/goalQuery";
 import GoalView from "./GoalView";
+import { createGoal } from "@/databases/goalQuery";
 
 type Goal = {
   id: number;
@@ -28,15 +29,21 @@ export default function GoalBoard() {
     loadGoals();
   }, []);
 
+  const handleAddGoal = async () => {
+    await createGoal();
+    loadGoals();
+  };
+
   return (
     <>
       <View style={styles.searchBar}></View>
       <ScrollView contentContainerStyle={styles.container}>
         {goals.map((goal) => (
-          <GoalView key={goal.id} goal={goal} />
+          <GoalView key={goal.id} goal={goal} reloadBoard={loadGoals} />
         ))}
+        <View style={{ height: 300 }} />
       </ScrollView>
-      <View style={styles.AddButton}></View>
+      <Pressable style={styles.AddButton} onPress={handleAddGoal}></Pressable>
     </>
   );
 }

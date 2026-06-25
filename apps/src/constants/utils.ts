@@ -32,4 +32,12 @@ function formatSqlDate(date: Date) {
 
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
-export { formatDateTime, formatSqlDate };
+
+const formatDate = (dateTime) => {
+  if (!dateTime) return "";
+  const [date] = dateTime.split(" "); // "2026-08-01"
+  const [year, month, day] = date.split("-");
+
+  return `${day}/${month}/${year}`;
+};
+export { formatDateTime, formatSqlDate, formatDate };

@@ -4,6 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import Icons from "@/constants/Icons";
 import { useState } from "react";
 import GoalItem from "./GoalItem";
+import GoalWindow from "./GoalWindow";
 
 type goal = {
   children: goal[];
@@ -23,11 +24,17 @@ const colorList = [
   { main: Colors.blue, light: Colors.light_blue, dark: Colors.dark_blue },
 ];
 
-export default function GoalView({ goal }: { goal: goal }) {
+export default function GoalView({
+  goal,
+  reloadBoard,
+}: {
+  goal: goal;
+  reloadBoard: () => void;
+}) {
   const Category_Icon = Icons[goal.domain];
   const color = colorList[goal.id % colorList.length];
   const [collapsed, setCollapsed] = useState(false);
-
+  const [showWindow, setShowWindow] = useState(false);
   return (
     <LinearGradient
       colors={[color.light, Colors.white]}
@@ -49,14 +56,26 @@ export default function GoalView({ goal }: { goal: goal }) {
             <Text style={{ color: color.main, fontSize: 12 }}>Deadline</Text>
           </View>
         </View>
-        <Icons.pencil />
+        <Icons.pencil onPress={() => setShowWindow(true)} />
       </View>
+      {showWindow && (
+        <GoalWindow
+          goal={goal}
+          onClose={() => setShowWindow(false)}
+          reloadBoard={reloadBoard}
+        />
+      )}
       {/* Subgoals */}
       {!collapsed && goal.children.length > 0 && (
         <View style={styles.subGoalContainer}>
           <View style={[styles.line, { backgroundColor: color.main }]}></View>
           {goal.children.map((child) => (
-            <GoalItem key={child.id} goal={child} color={color} />
+            <GoalItem
+              key={child.id}
+              goal={child}
+              color={color}
+              reloadBoard={reloadBoard}
+            />
           ))}
         </View>
       )}
@@ -75,7 +94,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "90%",
-    backgroundColor: Colors.white,
     borderRadius: 25,
     marginTop: 20,
     marginBottom: 20,
@@ -115,12 +133,9 @@ const styles = StyleSheet.create({
   },
   subGoalContainer: {
     width: "90%",
-    minHeight: 300,
     borderRadius: 15,
     marginTop: 10,
     marginBottom: 30,
-    flexDirection: "column",
-    justifyContent: "space-evenly",
     gap: 0,
   },
   line: {

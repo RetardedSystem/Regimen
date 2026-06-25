@@ -162,73 +162,73 @@ export async function initDB() {
     )
     VALUES
       -- Root Goal
-      (1, NULL, 'IIT JAM Mathematics', 'education', '2026-06-20', NULL, '2027-01-15'),
+      (1, NULL, 'IIT JAM Mathematics', 'education', '2026-06-20 09:15:00', NULL, '2027-01-15 14:30:00'),
 
       -- Main Subjects
-      (2, 1, 'Higher Algebra', 'education', '2026-06-20', NULL, '2026-08-01'),
-      (3, 1, 'Calculus', 'education', '2026-06-20', NULL, '2026-10-01'),
-      (4, 1, 'Real Analysis', 'education', '2026-08-01', NULL, '2026-11-01'),
-      (5, 1, 'Linear Algebra', 'education', '2026-08-01', NULL, '2026-11-15'),
-      (6, 1, 'Differential Equations', 'education', '2026-11-01', NULL, '2026-12-01'),
-      (7, 1, 'Abstract Algebra', 'education', '2026-10-15', NULL, '2026-12-15'),
-      (8, 1, 'IIT JAM Practice', 'education', '2026-11-15', NULL, '2027-01-15'),
+      (2, 1, 'Higher Algebra', 'education', '2026-06-20 08:45:00', NULL, '2026-08-01 16:20:00'),
+      (3, 1, 'Calculus', 'education', '2026-06-20 10:30:00', NULL, '2026-10-01 13:45:00'),
+      (4, 1, 'Real Analysis', 'education', '2026-08-01 07:15:00', NULL, '2026-11-01 15:00:00'),
+      (5, 1, 'Linear Algebra', 'education', '2026-08-01 11:20:00', NULL, '2026-11-15 17:45:00'),
+      (6, 1, 'Differential Equations', 'education', '2026-11-01 09:00:00', NULL, '2026-12-01 18:30:00'),
+      (7, 1, 'Abstract Algebra', 'education', '2026-10-15 14:15:00', NULL, '2026-12-15 12:00:00'),
+      (8, 1, 'IIT JAM Practice', 'education', '2026-11-15 10:45:00', NULL, '2027-01-15 19:15:00'),
 
       -- Higher Algebra
-      (9, 2, 'Complex Numbers', 'education', '2026-06-20', '2026-06-23', '2026-07-01'),
-      (100, 9, 'Roots of Unity', 'education', '2026-06-25', '2026-06-24', '2026-07-05'),
-      (101, 9, 'De Moivre Theorem', 'education', '2026-07-01', NULL, '2026-07-10'),
-      (10, 2, 'Theory of Equations', 'education', '2026-06-25', NULL, '2026-07-10'),
-      (11, 2, 'Binomial Theorem', 'education', '2026-07-01', NULL, '2026-07-15'),
-      (12, 2, 'Multinomial Theorem', 'education', '2026-07-10', NULL, '2026-07-20'),
-      (13, 2, 'Inequalities', 'education', '2026-07-15', NULL, '2026-08-01'),
+      (9, 2, 'Complex Numbers', 'education', '2026-06-20 13:30:00', '2026-06-23 15:45:00', '2026-07-01 11:00:00'),
+      (100, 9, 'Roots of Unity', 'education', '2026-06-25 09:30:00', '2026-06-24 16:20:00', '2026-07-05 14:15:00'),
+      (101, 9, 'De Moivre Theorem', 'education', '2026-07-01 08:00:00', NULL, '2026-07-10 17:30:00'),
+      (10, 2, 'Theory of Equations', 'education', '2026-06-25 12:45:00', NULL, '2026-07-10 10:15:00'),
+      (11, 2, 'Binomial Theorem', 'education', '2026-07-01 15:30:00', NULL, '2026-07-15 13:20:00'),
+      (12, 2, 'Multinomial Theorem', 'education', '2026-07-10 11:00:00', NULL, '2026-07-20 16:45:00'),
+      (13, 2, 'Inequalities', 'education', '2026-07-15 09:45:00', NULL, '2026-08-01 18:00:00'),
 
       -- Calculus
-      (14, 3, 'Functions', 'education', '2026-06-20', NULL, '2026-06-30'),
-      (15, 3, 'Limits', 'education', '2026-06-30', NULL, '2026-07-15'),
-      (16, 3, 'Continuity', 'education', '2026-07-15', NULL, '2026-07-25'),
-      (17, 3, 'Differentiation', 'education', '2026-07-25', NULL, '2026-08-20'),
-      (18, 3, 'Applications of Derivatives', 'education', '2026-08-20', NULL, '2026-09-01'),
-      (19, 3, 'Integration', 'education', '2026-09-01', NULL, '2026-09-20'),
-      (20, 3, 'Techniques of Integration', 'education', '2026-09-10', NULL, '2026-09-30'),
-      (21, 3, 'Sequences and Series', 'education', '2026-09-15', NULL, '2026-10-01'),
-      (22, 3, 'Multivariable Calculus', 'education', '2026-09-20', NULL, '2026-10-10'),
+      (14, 3, 'Functions', 'education', '2026-06-20 14:20:00', NULL, '2026-06-30 12:30:00'),
+      (15, 3, 'Limits', 'education', '2026-06-30 10:00:00', NULL, '2026-07-15 15:45:00'),
+      (16, 3, 'Continuity', 'education', '2026-07-15 13:15:00', NULL, '2026-07-25 11:30:00'),
+      (17, 3, 'Differentiation', 'education', '2026-07-25 08:30:00', NULL, '2026-08-20 14:00:00'),
+      (18, 3, 'Applications of Derivatives', 'education', '2026-08-20 16:15:00', NULL, '2026-09-01 10:45:00'),
+      (19, 3, 'Integration', 'education', '2026-09-01 09:30:00', NULL, '2026-09-20 17:20:00'),
+      (20, 3, 'Techniques of Integration', 'education', '2026-09-10 12:00:00', NULL, '2026-09-30 15:15:00'),
+      (21, 3, 'Sequences and Series', 'education', '2026-09-15 10:45:00', NULL, '2026-10-01 13:00:00'),
+      (22, 3, 'Multivariable Calculus', 'education', '2026-09-20 14:30:00', NULL, '2026-10-10 16:30:00'),
 
       -- Real Analysis
-      (23, 4, 'Logic and Proofs', 'education', '2026-08-01', NULL, '2026-08-15'),
-      (24, 4, 'Real Numbers', 'education', '2026-08-10', NULL, '2026-08-25'),
-      (25, 4, 'Sequences', 'education', '2026-08-20', NULL, '2026-09-15'),
-      (26, 4, 'Limits', 'education', '2026-09-01', NULL, '2026-09-20'),
-      (27, 4, 'Continuity', 'education', '2026-09-15', NULL, '2026-10-01'),
-      (28, 4, 'Differentiation', 'education', '2026-10-01', NULL, '2026-10-20'),
-      (29, 4, 'Riemann Integration', 'education', '2026-10-15', NULL, '2026-11-01'),
+      (23, 4, 'Logic and Proofs', 'education', '2026-08-01 08:15:00', NULL, '2026-08-15 14:45:00'),
+      (24, 4, 'Real Numbers', 'education', '2026-08-10 11:45:00', NULL, '2026-08-25 10:30:00'),
+      (25, 4, 'Sequences', 'education', '2026-08-20 13:20:00', NULL, '2026-09-15 15:50:00'),
+      (26, 4, 'Limits', 'education', '2026-09-01 09:00:00', NULL, '2026-09-20 12:15:00'),
+      (27, 4, 'Continuity', 'education', '2026-09-15 14:30:00', NULL, '2026-10-01 17:00:00'),
+      (28, 4, 'Differentiation', 'education', '2026-10-01 10:20:00', NULL, '2026-10-20 13:45:00'),
+      (29, 4, 'Riemann Integration', 'education', '2026-10-15 15:00:00', NULL, '2026-11-01 11:15:00'),
 
       -- Linear Algebra
-      (30, 5, 'Vector Spaces', 'education', '2026-08-01', NULL, '2026-08-20'),
-      (31, 5, 'Subspaces', 'education', '2026-08-15', NULL, '2026-08-30'),
-      (32, 5, 'Linear Maps', 'education', '2026-08-25', NULL, '2026-09-15'),
-      (33, 5, 'Matrices', 'education', '2026-09-10', NULL, '2026-09-25'),
-      (34, 5, 'Eigenvalues', 'education', '2026-09-20', NULL, '2026-10-10'),
-      (35, 5, 'Eigenvectors', 'education', '2026-09-20', NULL, '2026-10-10'),
-      (36, 5, 'Diagonalization', 'education', '2026-10-10', NULL, '2026-10-30'),
-      (37, 5, 'Inner Product Spaces', 'education', '2026-10-20', NULL, '2026-11-15'),
+      (30, 5, 'Vector Spaces', 'education', '2026-08-01 09:30:00', NULL, '2026-08-20 16:00:00'),
+      (31, 5, 'Subspaces', 'education', '2026-08-15 12:15:00', NULL, '2026-08-30 14:20:00'),
+      (32, 5, 'Linear Maps', 'education', '2026-08-25 10:45:00', NULL, '2026-09-15 13:30:00'),
+      (33, 5, 'Matrices', 'education', '2026-09-10 14:00:00', NULL, '2026-09-25 11:45:00'),
+      (34, 5, 'Eigenvalues', 'education', '2026-09-20 08:30:00', NULL, '2026-10-10 15:30:00'),
+      (35, 5, 'Eigenvectors', 'education', '2026-09-20 11:00:00', NULL, '2026-10-10 17:15:00'),
+      (36, 5, 'Diagonalization', 'education', '2026-10-10 13:45:00', NULL, '2026-10-30 10:30:00'),
+      (37, 5, 'Inner Product Spaces', 'education', '2026-10-20 09:15:00', NULL, '2026-11-15 14:45:00'),
 
       -- Differential Equations
-      (38, 6, 'First Order Differential Equations', 'education', '2026-11-01', NULL, '2026-11-15'),
-      (39, 6, 'Second Order Differential Equations', 'education', '2026-11-10', NULL, '2026-11-25'),
-      (40, 6, 'Applications of Differential Equations', 'education', '2026-11-20', NULL, '2026-12-01'),
+      (38, 6, 'First Order Differential Equations', 'education', '2026-11-01 10:30:00', NULL, '2026-11-15 16:20:00'),
+      (39, 6, 'Second Order Differential Equations', 'education', '2026-11-10 14:15:00', NULL, '2026-11-25 12:45:00'),
+      (40, 6, 'Applications of Differential Equations', 'education', '2026-11-20 11:00:00', NULL, '2026-12-01 15:30:00'),
 
       -- Abstract Algebra
-      (41, 7, 'Groups', 'education', '2026-10-15', NULL, '2026-11-01'),
-      (42, 7, 'Cyclic Groups', 'education', '2026-11-01', NULL, '2026-11-15'),
-      (43, 7, 'Permutation Groups', 'education', '2026-11-10', NULL, '2026-11-25'),
-      (44, 7, 'Homomorphisms', 'education', '2026-11-20', NULL, '2026-12-05'),
-      (45, 7, 'Cosets', 'education', '2026-12-01', NULL, '2026-12-15'),
+      (41, 7, 'Groups', 'education', '2026-10-15 09:45:00', NULL, '2026-11-01 13:20:00'),
+      (42, 7, 'Cyclic Groups', 'education', '2026-11-01 12:30:00', NULL, '2026-11-15 10:15:00'),
+      (43, 7, 'Permutation Groups', 'education', '2026-11-10 15:45:00', NULL, '2026-11-25 14:00:00'),
+      (44, 7, 'Homomorphisms', 'education', '2026-11-20 10:00:00', NULL, '2026-12-05 16:30:00'),
+      (45, 7, 'Cosets', 'education', '2026-12-01 13:15:00', NULL, '2026-12-15 11:45:00'),
 
       -- Practice
-      (46, 8, 'Previous Year Papers', 'education', '2026-11-15', NULL, '2027-01-15'),
-      (47, 8, 'Mock Tests', 'education', '2026-12-01', NULL, '2027-01-15'),
-      (48, 8, 'Revision Notes', 'education', '2026-12-01', NULL, '2027-01-10'),
-      (49, 8, 'Formula Sheets', 'education', '2026-12-01', NULL, '2027-01-05');
+      (46, 8, 'Previous Year Papers', 'education', '2026-11-15 08:30:00', NULL, '2027-01-15 17:00:00'),
+      (47, 8, 'Mock Tests', 'education', '2026-12-01 14:20:00', NULL, '2027-01-15 13:45:00'),
+      (48, 8, 'Revision Notes', 'education', '2026-12-01 10:15:00', NULL, '2027-01-10 15:30:00'),
+      (49, 8, 'Formula Sheets', 'education', '2026-12-01 16:45:00', NULL, '2027-01-05 12:00:00');
   `);
 
   // Test Inserts

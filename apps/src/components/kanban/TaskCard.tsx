@@ -12,6 +12,7 @@ import { completeTask } from "@/databases/taskQuery";
 import TaskWindow from "./TaskWindow";
 import { formatDateTime } from "@/constants/utils";
 
+//@TODO: When a Goal is deleting, Delete all the tasks associated with it.
 type Task = {
   id: number;
   task_id: number;
