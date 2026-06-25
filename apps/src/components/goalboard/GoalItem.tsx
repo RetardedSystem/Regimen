@@ -3,14 +3,18 @@ import { View, Text, StyleSheet } from "react-native";
 import Colors from "@/constants/Colors";
 import Icons from "@/constants/Icons";
 import GoalWindow from "./GoalWindow";
+import { formatDate } from "@/constants/utils";
 
-function GoalItem({ goal, level = 0, color: color }: any) {
+function GoalItem({ goal, level = 0, color: color, reloadBoard }: any) {
   let marginLeft = 15 + level * 20;
   const [expanded, setExpanded] = useState(false);
   const hasChildren = goal.children?.length > 0;
   const [showWindow, setShowWindow] = useState(false);
+  const datetime =
+    goal.status === "in_progress"
+      ? formatDate(goal.deadline)
+      : formatDate(goal.deadline);
 
-  console.log(goal.domain);
   return (
     <>
       <View
@@ -57,21 +61,22 @@ function GoalItem({ goal, level = 0, color: color }: any) {
         </Text>
         <View style={styles.deadLineContainer}>
           {goal.completed_at === null ? (
-            <Icons.deadline width={12} height={12} color={color.main} />
+            <Icons.deadline width={10} height={10} color={color.main} />
           ) : (
-            <Icons.bigTick width={12} height={12} color={color.main} />
+            <Icons.bigTick width={10} height={10} color={color.main} />
           )}
 
-          <Text style={styles.deadline}>{goal.deadline}</Text>
+          <Text style={styles.deadline}>{datetime}</Text>
         </View>
       </View>
       {showWindow && (
         <GoalWindow
           goal={goal}
           onClose={() => setShowWindow(false)}
-          reloadBoard={() => { }}
+          reloadBoard={reloadBoard}
         />
       )}
+      {/*This Renders the Items recursively*/}
       {expanded &&
         goal.children.map((child: any) => (
           <GoalItem
@@ -79,6 +84,7 @@ function GoalItem({ goal, level = 0, color: color }: any) {
             goal={child}
             level={level + 1}
             color={color}
+            reloadBoard={reloadBoard}
           />
         ))}
     </>
@@ -93,7 +99,6 @@ const styles = StyleSheet.create({
     width: "100%",
     minHeight: 40,
     justifyContent: "flex-start",
-    flex: 1,
   },
   line: {
     position: "absolute",
@@ -129,7 +134,7 @@ const styles = StyleSheet.create({
   },
   deadline: {
     color: Colors.grey,
-    fontSize: 12,
+    fontSize: 10,
     fontFamily: "Nunito_400Regular",
     marginLeft: 5,
   },

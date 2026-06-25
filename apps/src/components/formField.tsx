@@ -235,6 +235,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.grey,
     borderWidth: 1,
     justifyContent: "center",
+    marginBottom: 10,
   },
 
   textbox: {

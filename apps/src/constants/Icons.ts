@@ -29,13 +29,11 @@ import LoopIcon from "@/assets/Icons/Loop.svg";
 import AdditionIcon from "@/assets/Icons/Addition.svg";
 import PencilIcon from "@/assets/Icons/Pencil.svg";
 
-import CheckboxIcon from "@/assets/Icons/Checkbox.svg";
-import CheckboxChildIcon from "@/assets/Icons/Checkbox_Child.svg";
-import ExpandedCheckboxIcon from "@/assets/Icons/Expanded.svg";
-
 import goalHasChild from "@/assets/Icons/goalHasChild.svg";
 import goalNoChild from "@/assets/Icons/goalNoChild.svg";
 import goalExpanded from "@/assets/Icons/goalExpanded";
+import CollapseIcon from "@/assets/Icons/Collapsed.svg";
+import ExpandIcon from "@/assets/Icons/Expanded.svg";
 
 const Icons = {
   // Screen Icons
@@ -73,12 +71,12 @@ const Icons = {
   addition: AdditionIcon,
   pencil: PencilIcon,
 
-  checkbox: CheckboxIcon,
-  checkboxChild: CheckboxChildIcon,
-  expandedCheckbox: ExpandedCheckboxIcon,
   goalHasChild: goalHasChild,
   goalNoChild: goalNoChild,
   goalExpanded: goalExpanded,
+
+  collapse: CollapseIcon,
+  expand: ExpandIcon,
 };
 
 export default Icons;
