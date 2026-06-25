@@ -1,12 +1,46 @@
 import Icons from "@/constants/Icons";
 import { StyleSheet, Text, View } from "react-native";
+type Props = {
+  period: "monthly" | "weekly";
+  currentDate: Date;
+};
 
-export default function DateRange() {
+function getWeekRange(date: Date) {
+  const start = new Date(date);
+
+  start.setDate(date.getDate() - date.getDay() + 1);
+
+  const end = new Date(start);
+
+  end.setDate(start.getDate() + 6);
+
+  return { start, end };
+}
+
+export default function DateRange({ period, currentDate }: Props) {
+  let displayText = "";
+
+  if (period === "weekly") {
+    const { start, end } = getWeekRange(currentDate);
+
+    displayText =
+      `${start.getDate().toString().padStart(2, "0")} - ` +
+      `${end.getDate().toString().padStart(2, "0")} ` +
+      `${end.toLocaleString("en-GB", {
+        month: "long",
+        year: "numeric",
+      })}`;
+  } else {
+    displayText = currentDate.toLocaleString("en-GB", {
+      month: "long",
+      year: "numeric",
+    });
+  }
   return (
     <View style={styles.container}>
       <Icons.calendar width={16} height={16} />
 
-      <Text style={styles.text}>01 - 07 April 2026</Text>
+      <Text style={styles.text}>{displayText}</Text>
     </View>
   );
 }
