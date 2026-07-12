@@ -1,5 +1,43 @@
 import { db } from "./initDB";
 
+export async function getAllTasks() {
+  return await db.getAllAsync(`
+    SELECT
+        ti.id AS id,
+        ti.task_id,
+
+        t.title,
+        t.description,
+
+        ti.status,
+
+        ti.instance_date AS date,
+
+        t.start_date,
+        t.deadline,
+        t.completed_at,
+
+        t.goal_id,
+        g.domain,
+        t.priority,
+
+        t.is_recurring,
+        t.recurrence_days,
+        t.recurrence_type
+
+    FROM task_instances ti
+    INNER JOIN tasks t
+        ON ti.task_id = t.id
+    LEFT JOIN goals g
+        ON t.goal_id = g.id
+    ORDER BY
+      CASE
+        WHEN ti.status = 'done' THEN t.completed_at
+        ELSE t.priority
+      END DESC
+  `);
+}
+
 /**
  * Retrieves all tasks from the database for a Specific Date
  * @param {string} date -  'YYYY-MM-DD'

@@ -10,8 +10,8 @@ export default function Index() {
   const currentDate = getCurrentDateInfo();
   return (
     <ScreenBackground title="home">
-      <Profile/>
-      <Journey currentDate={currentDate}/>
+      <Profile />
+      <Journey currentDate={currentDate} />
       <KanbanBoard />
     </ScreenBackground>
   );

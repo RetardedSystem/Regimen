@@ -42,7 +42,6 @@ export default function KanbanColumn(props: Prop) {
 
   const handleaddTask = async () => {
     await createTask();
-
     props.reloadBoard();
   };
 

@@ -1,4 +1,5 @@
 import { db } from "./initDB";
+import { getAllTasks } from "./taskQuery";
 
 export async function getGoals() {
   return await db.getAllAsync(`
@@ -10,18 +11,29 @@ export async function getGoals() {
 
 export async function getGoalsTree() {
   const goals = await db.getAllAsync(`
-    SELECT id,title, description, parent_goal_id,domain,status,start_date,completed_at,deadline,status
+    SELECT id, title, description, parent_goal_id, domain, status, start_date, completed_at, deadline, status
     FROM goals
     ORDER BY id
   `);
 
+  const tasks = await getAllTasks();
+
   const goalsMap: { [key: number]: any } = {};
   const roots: any[] = [];
 
+  // build goal nodes, each with empty children + tasks arrays
   for (const goal of goals) {
-    goalsMap[goal.id] = { ...goal, children: [] };
+    goalsMap[goal.id] = { ...goal, children: [], tasks: [] };
   }
 
+  // attach tasks to their goal
+  for (const task of tasks) {
+    if (goalsMap[task.goal_id]) {
+      goalsMap[task.goal_id].tasks.push(task);
+    }
+  }
+
+  // build the tree
   for (const goal of goals) {
     if (goal.parent_goal_id !== null) {
       goalsMap[goal.parent_goal_id].children.push(goalsMap[goal.id]);
@@ -32,7 +44,32 @@ export async function getGoalsTree() {
 
   return roots;
 }
-
+//
+// export async function getGoalsTree() {
+//   const goals = await db.getAllAsync(`
+//     SELECT id,title, description, parent_goal_id,domain,status,start_date,completed_at,deadline,status
+//     FROM goals
+//     ORDER BY id
+//   `);
+//
+//   const goalsMap: { [key: number]: any } = {};
+//   const roots: any[] = [];
+//
+//   for (const goal of goals) {
+//     goalsMap[goal.id] = { ...goal, children: [] };
+//   }
+//
+//   for (const goal of goals) {
+//     if (goal.parent_goal_id !== null) {
+//       goalsMap[goal.parent_goal_id].children.push(goalsMap[goal.id]);
+//     } else {
+//       roots.push(goalsMap[goal.id]);
+//     }
+//   }
+//
+//   return roots;
+// }
+//
 export async function updateGoal(
   goal: Goal,
   parentGoalId: number | null = goal.parent_goal_id,

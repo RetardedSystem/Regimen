@@ -4,8 +4,14 @@ import Colors from "@/constants/Colors";
 import Icons from "@/constants/Icons";
 import GoalWindow from "./GoalWindow";
 import { formatDate } from "@/constants/utils";
+import TaskItem from "./TaskItem";
 
-function GoalItem({ goal, level = 0, color: color, reloadBoard }: any) {
+export default function GoalItem({
+  goal,
+  level = 0,
+  color: color,
+  reloadBoard,
+}: any) {
   let marginLeft = 15 + level * 20;
   const [expanded, setExpanded] = useState(false);
   const hasChildren = goal.children?.length > 0;
@@ -76,6 +82,19 @@ function GoalItem({ goal, level = 0, color: color, reloadBoard }: any) {
           reloadBoard={reloadBoard}
         />
       )}
+
+      {/*This Renders the tasks for this goal*/}
+      {expanded &&
+        goal.tasks?.map((task: any) => (
+          <TaskItem
+            key={`task-${task.id}`}
+            task={task}
+            level={level + 1}
+            color={color}
+            reloadBoard={reloadBoard}
+          />
+        ))}
+
       {/*This Renders the Items recursively*/}
       {expanded &&
         goal.children.map((child: any) => (
@@ -139,5 +158,3 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
 });
-
-export default GoalItem;

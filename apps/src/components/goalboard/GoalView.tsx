@@ -20,10 +20,17 @@ type goal = {
 
 const colorList = [
   { main: Colors.yellow, light: Colors.light_yellow, dark: Colors.dark_yellow },
-  { main: Colors.red, light: Colors.light_red, dark: Colors.dark_red },
   { main: Colors.blue, light: Colors.light_blue, dark: Colors.dark_blue },
+  { main: Colors.red, light: Colors.light_red, dark: Colors.dark_red },
 ];
 
+/**
+ * This component represents a single goal in the goal board.
+ * It displays the goal's title, deadline, and subgoals(Using GoalItem).
+ * Users can expand/collapse the subgoals and edit the goal details.
+ * @param {goal} goal - The goal object containing its details and subgoals.
+ * @param {function} reloadBoard - A function to reload the goal board after updates.
+ */
 export default function GoalView({
   goal,
   reloadBoard,
@@ -49,6 +56,7 @@ export default function GoalView({
           color={color.main}
           onPress={() => setCollapsed(!collapsed)}
         />
+        {/* Title and Deadline */}
         <View style={styles.titleContainer}>
           <Text style={styles.text}>{goal.title}</Text>
           <View style={styles.deadlineContainer}>
@@ -58,6 +66,7 @@ export default function GoalView({
         </View>
         <Icons.pencil onPress={() => setShowWindow(true)} />
       </View>
+      {/*Goal Window when Pencil is Clicked*/}
       {showWindow && (
         <GoalWindow
           goal={goal}
