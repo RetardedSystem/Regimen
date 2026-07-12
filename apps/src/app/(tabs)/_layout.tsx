@@ -2,7 +2,6 @@ import { Tabs } from "expo-router";
 import TabBar from "../../components/TabBar";
 import Colors from "../../constants/Colors";
 import Icons from "../../constants/Icons";
-
 const icon_size = 25;
 
 export default function TabsLayout() {

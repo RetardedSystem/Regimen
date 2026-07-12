@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import KanbanColumn from "@/components/kanban/KanbanColumn";
 import { getTasksByDate } from "@/databases/taskQuery";
+import { useFocusEffect } from "expo-router";
+import { useCallback } from "react";
 
 export default function KanbanBoard() {
   // It give any type of Array to Tasks.
@@ -12,11 +14,16 @@ export default function KanbanBoard() {
     const data = await getTasksByDate("2026-06-03");
     setTasks(data);
   }
-
   // This keeps a eye on the Task List, and whenever it changes, it will fetch the new Task List and update the Board
   useEffect(() => {
     loadTasks();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadTasks();
+    }, [loadTasks()]),
+  );
 
   return (
     <View style={styles.container}>
